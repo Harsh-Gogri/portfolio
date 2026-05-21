@@ -1,0 +1,19 @@
+.figure {
+  margin: 40px 0;
+  width: 100%;
+}
+
+.image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.caption {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-subtle);
+  text-align: center;
+}

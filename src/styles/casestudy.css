@@ -1,0 +1,48 @@
+.caseStudy h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 500;
+  color: var(--color-text);
+  margin-top: 64px;
+  margin-bottom: 16px;
+}
+
+.caseStudy h3 {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.caseStudy p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+}
+
+.caseStudy blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 20px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin: 32px 0;
+}
+
+.caseStudy ul,
+.caseStudy ol {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.caseStudy a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}

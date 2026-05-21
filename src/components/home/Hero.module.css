@@ -1,0 +1,124 @@
+.hero {
+  max-width: 1440px;
+  margin: 0 auto;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding: 0 24px var(--spacing-lg);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.title {
+  min-width: 0;
+  max-width: 720px;
+  font-family: var(--font-body);
+  font-size: clamp(1.5625rem, 1.75vw + 1.075rem, 2.3125rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.description {
+  min-width: 0;
+  max-width: 400px;
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.35vw + 0.9rem, 1.125rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  padding-left: var(--spacing-md);
+  overflow: visible;
+}
+
+.nameWrap {
+  position: relative;
+  display: inline;
+}
+
+.name {
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.nameWrapOpen .name {
+  color: var(--color-text-subtle);
+}
+
+.nameWrapOpen .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  z-index: 20;
+  margin-bottom: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 0.18s ease,
+    visibility 0.18s ease,
+    transform 0.18s ease;
+}
+
+@keyframes tooltipFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.tooltipImage {
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(42, 42, 42, 0.12);
+}
+
+.nameWrapOpen .tooltipImage {
+  animation: tooltipFloat 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nameWrapOpen .tooltipImage {
+    animation: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .inner {
+    display: grid;
+    grid-template-columns: 13fr 7fr;
+    align-items: end;
+    gap: var(--spacing-lg);
+  }
+
+  .description {
+    max-width: none;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
