@@ -74,6 +74,39 @@
   display: none;
 }
 
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.viewAllButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 32px;
+  border-radius: 100px;
+  border: none;
+  background: var(--color-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.viewAllText {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: #fff;
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (max-width: 1200px) {
+  .row {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 48px 20px;

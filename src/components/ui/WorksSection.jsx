@@ -1,20 +1,23 @@
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import CustomCursor from "./CustomCursor";
+import MagneticButton from "./MagneticButton";
 import styles from "./WorksSection.module.css";
 
-export default function WorksSection() {
-  const visibleProjects = projects.slice(0, 5);
+export default function WorksSection({ showAll = false }) {
+  const visibleProjects = showAll ? projects : projects.slice(0, 5);
 
   return (
     <section className={styles.worksSection}>
       <CustomCursor />
       <div className={styles.container}>
-        <div className={styles.headerRow}>
-          <span className={styles.headerLeft}>Selected Work</span>
-          <span className={styles.headerLine} />
-          <a href="#" className={styles.headerRight}>View all work →</a>
-        </div>
+        {!showAll && (
+          <div className={styles.headerRow}>
+            <span className={styles.headerLeft}>Selected Work</span>
+            <span className={styles.headerLine} />
+            <Link href="/work" className={styles.headerRight}>View all work →</Link>
+          </div>
+        )}
 
         {visibleProjects.map((project) => (
           <Link
@@ -35,8 +38,11 @@ export default function WorksSection() {
             <span className={styles.title}>{project.title}</span>
           </Link>
         ))}
+
+        {!showAll && (
+          <MagneticButton href="/work">View all work</MagneticButton>
+        )}
       </div>
     </section>
   );
 }
-

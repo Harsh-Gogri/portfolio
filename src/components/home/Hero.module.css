@@ -77,10 +77,12 @@
 }
 
 @keyframes tooltipFloat {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-4px);
   }
@@ -102,6 +104,10 @@
   }
 }
 
+.mobileImageContainer {
+  display: none;
+}
+
 @media (min-width: 1200px) {
   .inner {
     display: grid;
@@ -118,7 +124,40 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding-left: 20px;
-    padding-right: 20px;
+    min-height: auto;
+    padding: 48px 20px var(--spacing-lg);
+    justify-content: flex-start;
+  }
+
+  .mobileImageContainer {
+    display: block;
+    position: relative;
+    width: 30%;
+    aspect-ratio: 3 / 4;
+    border-radius: 0px;
+    overflow: hidden;
+  }
+
+  .mobileProfileImage {
+    object-fit: cover;
+  }
+
+  .description {
+    max-width: 100%;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .name {
+    cursor: default;
+    color: var(--color-text) !important;
+  }
+
+  .nameWrapOpen .name {
+    color: var(--color-text) !important;
+  }
+
+  .tooltip {
+    display: none !important;
   }
 }

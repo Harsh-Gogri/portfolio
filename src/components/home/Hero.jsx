@@ -48,6 +48,16 @@ export default function Hero() {
           Somewhere between make it pop and what&apos;s the success metric, I
           realized I was more interested in the second question.
         </h1>
+        <div className={styles.mobileImageContainer}>
+          <Image
+            src={PROFILE_PHOTO_SRC}
+            alt="Harsh Gogri Profile"
+            fill
+            className={styles.mobileProfileImage}
+            sizes="(max-width: 768px) 100vw, 33vw"
+            priority
+          />
+        </div>
         <p className={styles.description}>
           I&apos;m{" "}
           <span

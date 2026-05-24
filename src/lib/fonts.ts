@@ -4,17 +4,17 @@ export const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-heading",
-  display: "swap"
+  display: "swap",
 });
 
 export const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
-  display: "swap"
+  display: "swap",
 });
 
 export const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap"
+  display: "swap",
 });
