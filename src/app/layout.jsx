@@ -1,5 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
-import { geist, instrumentSerif, inter } from "@/lib/fonts";
+import { bricolageGrotesque, geist, inter } from "@/lib/fonts";
 import "@/styles/globals.css";
 
 export const metadata = {
@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${inter.variable} ${instrumentSerif.variable}`}
+      className={`${geist.variable} ${inter.variable} ${bricolageGrotesque.variable}`}
     >
       <body>
         <Navbar />

@@ -17,7 +17,7 @@ export const projects = [
     id: "collaboration-groups",
     title: "Collaboration Groups",
     company: "Mitt Arv",
-    tags: ["Design", "Collaboration"],
+    tags: ["Design"],
     image: "/images/assets/work/Mitt Arv - Collaboration/collaboration groups.jpg",
   },
   {
@@ -30,8 +30,8 @@ export const projects = [
   {
     id: "payments-censored",
     title: "Payments Censored",
-    company: "T&P",
-    tags: ["Design", "Payments"],
+    company: "Travel & Payments",
+    tags: ["Design"],
     image: "/images/assets/work/T&P - Payments Censored/payments censored.jpg",
   }
 ];

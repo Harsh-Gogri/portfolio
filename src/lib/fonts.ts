@@ -1,8 +1,7 @@
-import { Geist, Instrument_Serif, Inter } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Inter } from "next/font/google";
 
-export const instrumentSerif = Instrument_Serif({
+export const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: "400",
   variable: "--font-heading",
   display: "swap",
 });

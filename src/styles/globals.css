@@ -1,10 +1,11 @@
 :root {
   /* Typography */
-  --font-heading: "Instrument Serif", serif;
+  --font-heading: "Bricolage Grotesque", sans-serif;
   --font-body: var(--font-geist), var(--font-inter), sans-serif;
 
   /* Colors */
-  --color-bg: #fefefe;
+  --color-bg: #FDFAF6;
+  --color-bg-secondary: #ffffff;
   --color-text: #171616;
   --color-primary: #ff6331;
   --color-text-muted: #6b6b6b;
