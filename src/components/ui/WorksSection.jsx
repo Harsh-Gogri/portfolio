@@ -41,10 +41,10 @@ export default function WorksSection({ showAll = false }) {
                 <span className={styles.title}>{project.title}</span>
               </div>
               <div className={styles.rightGroup}>
-                <span className={styles.number}>{rowNumber}</span>
                 {project.tags && project.tags.length > 0 && (
                   <span className={styles.tags}>{project.tags.join(", ")}</span>
                 )}
+                <span className={styles.number}>{rowNumber}</span>
               </div>
             </Link>
           );

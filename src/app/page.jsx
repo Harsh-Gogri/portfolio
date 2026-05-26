@@ -1,13 +1,13 @@
 import Hero from "@/components/home/Hero";
 import WorksSection from "@/components/ui/WorksSection";
-import StatsSection from "@/components/ui/StatsSection";
+import ReviewsSection from "@/components/ui/ReviewsSection";
 
 export default function HomePage() {
   return (
     <main>
       <Hero />
       <WorksSection />
-      <StatsSection />
+      <ReviewsSection />
     </main>
   );
 }

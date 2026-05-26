@@ -1,6 +1,6 @@
 .reviewsSection {
   width: 100%;
-  padding-bottom: 80px;
+  padding: 120px 0;
 }
 
 .container {
@@ -18,7 +18,7 @@
 
 .title {
   font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
   font-weight: 400;
   line-height: 1.2;
 }
@@ -34,13 +34,13 @@
 
 .navigation {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   align-items: center;
 }
 
 .navButton {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
@@ -61,11 +61,37 @@
   border-color: var(--color-primary);
 }
 
-.placeholderContent {
-  margin-top: 48px;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--color-text-subtle);
+.arrowIcon {
+  width: 20px;
+  height: auto;
+}
+
+.leftArrow {
+  transform: rotate(180deg);
+}
+
+.carouselWrapper {
+  overflow-x: visible;
+  margin-top: 40px;
+  margin-left: -24px;
+  margin-right: -24px;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0 24px;
+  scroll-padding-left: 24px;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
 }
 
 @media (max-width: 768px) {
