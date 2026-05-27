@@ -1,7 +1,8 @@
 .card {
   background: var(--color-bg-secondary);
+  aspect-ratio: 3/4;
   height: 520px;
-  aspect-ratio: 12/11;
+  width: auto;
   border-radius: 32px;
   padding: 32px;
   display: flex;
@@ -17,8 +18,9 @@
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -79,4 +81,39 @@
   font-family: var(--font-body);
   font-size: 0.75rem;
   color: var(--color-text-muted);
+}
+
+@media (max-width: 440px) {
+  .card {
+    width: 88vw;
+    height: auto;
+    aspect-ratio: 2/3;
+    padding: 24px;
+    flex-shrink: 0;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .avatarPlaceholder {
+    width: 40px;
+    height: 40px;
+  }
+
+  .quotation {
+    width: 20px;
+    font-size: 1rem;
+  }
+
+  .content {
+    font-size: 1.04rem;
+  }
+
+  .reviewerInfo {
+    margin-top: 4px;
+    gap: 4px;
+  }
 }
