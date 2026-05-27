@@ -85,10 +85,9 @@
 
 @media (max-width: 440px) {
   .card {
-    width: 88vw;
+    width: 85vw;
     height: auto;
-    aspect-ratio: 3/4;
-    padding: 24px;
+    aspect-ratio: 2/3;
     flex-shrink: 0;
     gap: 12px;
   }
@@ -109,7 +108,7 @@
   }
 
   .content {
-    font-size: 1.04rem;
+    font-size: 1.1rem;
   }
 
   .reviewerInfo {
