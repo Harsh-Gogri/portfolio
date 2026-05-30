@@ -5,7 +5,7 @@
 .header {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 180px 24px 48px;
+  padding: 180px 24px 68px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -20,10 +20,11 @@
 .title {
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 8vw, 8rem);
-  font-weight: 400;
+  font-weight: 300;
   color: var(--color-text);
   margin: 0;
   line-height: 1;
+  letter-spacing: -3px;
 }
 
 .right {
@@ -34,7 +35,7 @@
 
 .company {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.6rem;
   color: var(--color-text-muted);
 }
 
@@ -51,7 +52,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  will-change: clip-path;
 }
 
 .heroPlaceholder {

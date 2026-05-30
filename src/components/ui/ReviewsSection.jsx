@@ -47,12 +47,12 @@ export default function ReviewsSection() {
             </button>
           </div>
         </div>
-        <div className={styles.carouselWrapper}>
-          <div className={styles.carousel} ref={carouselRef}>
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
-          </div>
+      </div>
+      <div className={styles.carouselWrapper}>
+        <div className={styles.carousel} ref={carouselRef}>
+          {reviews.map((review) => (
+            <ReviewCard key={review.id} review={review} />
+          ))}
         </div>
       </div>
     </section>
