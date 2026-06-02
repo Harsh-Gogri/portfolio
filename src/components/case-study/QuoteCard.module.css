@@ -1,12 +1,12 @@
 .card {
-  width: 100%;
-  gap: 20px;
-  padding: 32px;
-  background-color: var(--color-bg-secondary);
-  border-radius: 32px;
   box-sizing: border-box;
+  gap: 20px;
+  width: 100%;
+  padding: 24px 48px;
+  margin-top: 48px;
   display: flex;
   flex-direction: column;
+  border-left: 2px solid var(--color-border);
 }
 
 .quoteIcon {

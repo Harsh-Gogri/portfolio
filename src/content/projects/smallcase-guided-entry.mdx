@@ -1,234 +1,196 @@
 ## Overview
-<ImageGallery
-  images={[
-    {
-      src: "/images/assets/work/Smallcase - Guided Entry System/smallcase-guided-entry-system.jpeg",
-      alt: "Guided Entry System",
-      caption: "Guided onboarding experience"
-    },
-    {
-      src: "/images/assets/work/Smallcase - Guided Entry System/smallcase-guided-entry-system.jpeg",
-      alt: "Guided Entry System",
-      caption: "Guided onboarding experience"
-    }
-  ]}
-/>
-Smallcase has helped millions of investors discover curated portfolios built around themes, strategies, and long-term investment ideas. While users showed strong intent when exploring smallcases, a significant number dropped off before completing their first investment.
 
-Research revealed that users were not abandoning because they lacked interest—they were abandoning because they lacked confidence. Concepts like broker connection, order execution, portfolio minimums, and basket investing created uncertainty during critical moments of the journey.
+Smallcase simplifies investing through expert-curated portfolios. While analyzing the product and its investment journeys, I noticed a recurring challenge: users had access to numerous investment options but limited support in deciding which smallcase was right for them.
 
-The Guided Entry System was designed to reduce friction, build confidence, and help first-time investors successfully complete their first investment without feeling overwhelmed.
+To explore this problem, I conducted product analysis, user interviews, and survey-based research. The findings consistently pointed toward decision paralysis caused by choice overload and low investment confidence.
 
----
-
-## Impact
-
-<StatGrid items={[
-  { value: "+31%", label: "Increase in first investment completion rate" },
-  { value: "-24%", label: "Reduction in onboarding abandonment" },
-  { value: "+18%", label: "Increase in broker connection success" },
-  { value: "-27%", label: "Reduction in time to first investment" },
-  { value: "4.7/5", label: "User confidence score post onboarding" }
-]} />
-
----
+The outcome was the **Guided Entry System** — a personalized onboarding and recommendation experience designed to help new and passive investors discover relevant smallcases with greater confidence.
 
 ## Problem
 
 <CalloutBox type="problem">
-  Users were highly motivated to invest but lacked confidence in the process. The onboarding journey assumed prior knowledge of investing workflows, causing uncertainty and drop-offs before investment completion.
+  New and passive investors struggle to confidently choose where to invest due to too many options and lack of clear guidance, leading to delayed or avoided investment decisions.
 </CalloutBox>
 
-For experienced investors, the investment flow felt straightforward. For first-time users, however, every step introduced new questions:
+While Smallcase reduces the effort required to build and manage portfolios, discovering the right portfolio remains a decision-heavy process.
 
-- What exactly is a Smallcase?
-- Why do I need to connect a broker?
-- Is my money safe?
-- What happens after I click Invest?
-- Am I making a mistake?
-
-The more uncertainty users experienced, the less likely they were to complete their first investment.
-
----
+During product analysis, I identified multiple opportunity areas, including funding friction during investments, portfolio optimization recommendations, and investment discovery. Research showed that investment selection was the most impactful problem to solve because users often stalled before making their first investment.
 
 ## Research
 
-<QuoteCard
-  quote="I wanted to invest, but I wasn't completely sure what would happen after pressing the buy button."
-  author="First-time Investor"
-  role="User Interview"
-/>
+### Product Analysis
+
+Analyzed key user journeys including investing, adding funds, and portfolio management.
+
+Reverse-engineered core Smallcase features to understand how the platform currently supports investor decision-making.
+
+### User Interviews
+
+Conducted 3 interviews with early-career professionals across different investing backgrounds.
+
+Participants included SIP investors, stock investors, and crypto-first investors.
+
+### Survey Validation
+
+Collected 13 responses to validate whether interview patterns extended beyond a small sample size.
+
+The survey focused on investing behaviour, confidence levels, decision-making patterns, and research preferences.
 
 <QuoteCard
-  quote="Connecting my broker felt risky because I didn't understand why Smallcase needed access."
-  author="New User"
-  role="Usability Study Participant"
+quote="I stopped investing because I didn’t feel confident making decisions on my own once my brother got busy."
+author="Interview Participant"
+role="Early-career investor"
 />
 
-<CalloutBox type="insight">
-  Users rarely abandoned because they disliked the product. Most drop-offs occurred when users encountered unfamiliar financial concepts without enough context to make a confident decision.
-</CalloutBox>
+## Key Insights
 
-Key observations from research:
-
-- Users understood stocks better than basket investing.
-- Broker connection was perceived as a high-risk action.
-- Long flows increased decision fatigue.
-- Users wanted reassurance before committing money.
-- Many users struggled to understand what would happen after investment.
-
----
-
-## Approach
-
-We redesigned the onboarding experience around progressive guidance instead of progressive disclosure alone. Every step needed to answer the user's most important question before they asked it.
-
-<Accordion items={[
-  {
-    title: "Discovery",
-    children: (
-      <>
-        <p>We analyzed onboarding funnels to identify the highest abandonment points and mapped the complete first-investment journey.</p>
-        <p>User interviews helped uncover emotional barriers including trust concerns, uncertainty, and fear of making mistakes.</p>
-      </>
-    )
-  },
-  {
-    title: "Ideation",
-    children: (
-      <>
-        <p>Multiple onboarding approaches were explored, including educational walkthroughs, simplified investment flows, contextual guidance, and broker onboarding redesigns.</p>
-        <p>The team aligned around a guided journey that would provide confidence-building information exactly when users needed it.</p>
-      </>
-    )
-  },
-  {
-    title: "Validation",
-    children: (
-      <>
-        <p>Interactive prototypes were tested with first-time investors and users unfamiliar with basket investing.</p>
-        <p>Testing focused on confidence levels, completion rates, and comprehension of key concepts throughout the journey.</p>
-      </>
-    )
-  }
+<StatGrid items={[
+{ value: "92.3%", label: "Delayed investing due to uncertainty" },
+{ value: "76.9%", label: "Said too many options feel stressful" },
+{ value: "75%", label: "Rely on friends or family for guidance" },
+{ value: "66.7%", label: "Want less research involved in investing" }
 ]} />
 
----
+<CalloutBox type="insight">
+  The biggest barrier wasn't willingness to invest—it was confidence in choosing where to invest.
+</CalloutBox>
+
+### Guidance is often external
+
+Many participants relied on family members, friends, or trusted individuals when making investment decisions.
+
+### Users prefer low-effort investing
+
+Most participants wanted investing approaches that required minimal research, monitoring, and active management.
+
+### Choice overload delays action
+
+Users were interested in investing but often postponed decisions because they didn't know how to evaluate available options.
+
+### Confidence drives activation
+
+When trusted guidance was unavailable, investment activity frequently slowed down or stopped altogether.
 
 ## Solution
 
-### Guided Education
-
-Instead of immediately pushing users toward investment actions, the experience first established a clear understanding of what Smallcase is and how basket investing works.
-
-Educational content was integrated into the flow rather than isolated inside help sections, ensuring users could learn without leaving their investment journey.
-
-### Broker Connection Guidance
-
-Broker connection represented one of the largest trust barriers.
-
-The redesigned experience introduced contextual explanations that clarified:
-
-- Why a broker is required
-- What permissions are being granted
-- What data remains protected
-- What happens after successful connection
-
-This reduced uncertainty while preserving flow momentum.
-
-### Confidence Before Commitment
-
-Rather than focusing solely on transaction completion, the system emphasized investment confidence.
-
-Key information was surfaced before critical actions, helping users understand:
-
-- What they were investing in
-- Why the portfolio existed
-- Expected investment behavior
-- Next steps after purchase
-
----
-
-## Screens
-
-<ImageGallery images={[
-  {
-    src: "/placeholder.jpg",
-    alt: "Guided onboarding introduction",
-    caption: "Introducing basket investing through simple, contextual education."
-  },
-  {
-    src: "/placeholder.jpg",
-    alt: "Portfolio understanding screen",
-    caption: "Helping users understand portfolio composition and investment rationale."
-  },
-  {
-    src: "/placeholder.jpg",
-    alt: "Broker connection flow",
-    caption: "Contextual guidance reducing uncertainty during broker onboarding."
-  },
-  {
-    src: "/placeholder.jpg",
-    alt: "Investment review screen",
-    caption: "Clear investment summary before commitment."
-  },
-  {
-    src: "/placeholder.jpg",
-    alt: "Investment success state",
-    caption: "Reinforcing confidence after successful investment completion."
-  }
-]} />
-
----
-
-## Tradeoffs
-
-Building a guided experience required balancing education, trust, and speed.
-
-<ComparisonTable
-  headers={["Design Dimension", "Guided Entry System (Chosen)", "Traditional Investment Flow"]}
-  rows={[
-    {
-      label: "User Understanding",
-      a: "Contextual education throughout the journey.",
-      b: "Users expected to understand concepts independently."
-    },
-    {
-      label: "Flow Length",
-      a: "Slightly longer but confidence-driven experience.",
-      b: "Shorter journey with higher uncertainty."
-    },
-    {
-      label: "Decision Confidence",
-      a: "Users understand why they are investing before committing.",
-      b: "Users often proceed with unanswered questions."
-    }
-  ]}
-/>
-
----
-
-## Outcome
-
-The Guided Entry System transformed onboarding from a transactional process into a confidence-building experience.
-
-By addressing uncertainty at each stage of the journey, users were better equipped to understand basket investing, trust the platform, and complete their first investment.
-
-The project demonstrated that increasing user confidence—not simply reducing steps—was the most effective way to improve conversion and long-term engagement.
-
----
-
-## Note
-
 <CalloutBox type="note">
-  The most valuable learning from this project was that onboarding friction was not caused by complexity alone. It was caused by uncertainty. When users understood what was happening and why, they were significantly more likely to complete their investment journey.
+  The Guided Entry System helps users discover relevant smallcases through a structured onboarding flow and personalized recommendations.
 </CalloutBox>
 
----
+Multiple concepts were explored, including referrals, ratings & reviews, social proof, and curated beginner picks. Guided onboarding was selected because it directly addressed the strongest research signals: choice overload, decision anxiety, and dependence on external guidance.
 
-## Links
+Instead of immediately exposing users to a large catalogue of investment options, the experience collects a small set of inputs and generates a focused shortlist of relevant smallcases.
 
-<LinksSection links={[
-  { href: "#", label: "Case Study Prototype" },
-  { href: "#", label: "Design Exploration" }
+The objective is to transform investment discovery from an open-ended browsing exercise into a guided decision-making experience.
+
+### How It Works
+
+<ImageGallery images={[
+{
+src: "/images/assets/work/Smallcase - Guided Entry System/Homepage.jpeg",
+alt: "Homepage Entry Point",
+caption: "The Guided Entry System is introduced through a dedicated entry point designed to help users start investing with greater confidence instead of browsing through numerous investment options."
+}
 ]} />
+
+<ImageGallery images={[
+{
+src: "/images/assets/work/Smallcase - Guided Entry System/Quiz steps.jpeg",
+alt: "Guided Questionnaire",
+caption: "A short onboarding flow captures the user's investment goal, time horizon, risk appetite, investment capacity, and involvement preference to build an investor profile."
+}
+]} />
+
+<ImageGallery images={[
+{
+src: "/images/assets/work/Smallcase - Guided Entry System/Curated list of smallcases.jpeg",
+alt: "Personalized Recommendations",
+caption: "Based on user inputs, the system generates a curated shortlist of relevant smallcases along with contextual explanations that help users understand why each recommendation is a good fit."
+}
+]} />
+
+
+### Recommendation Layer
+
+Based on user inputs, the system generates a personalized roadmap of suitable smallcases.
+
+Each recommendation includes:
+
+* Goal fit
+* Risk fit
+* Investment horizon fit
+* Minimum investment requirement
+* Performance snapshot
+
+#### Key Design Decision
+
+**Why this is recommended for you**
+
+Every recommendation includes contextual reasoning that explains how the recommendation aligns with the user's goals, risk profile, and investment horizon. This helps users understand recommendation logic rather than blindly trusting the system, increasing confidence and reducing reliance on external validation.
+
+
+## Success Metrics
+
+<ComparisonTable
+headers={["Metric Type", "Metric", "Why it Matters"]}
+rows={[
+{
+label: "Primary",
+a: "First Investment Conversion Rate",
+b: "Measures whether guided recommendations help new and passive investors complete their first investment."
+},
+{
+label: "Secondary",
+a: "Quiz Completion Rate",
+b: "Indicates willingness to engage with the guided onboarding experience."
+},
+{
+label: "Secondary",
+a: "Recommendation Click-through Rate",
+b: "Measures relevance and attractiveness of personalized recommendations."
+},
+{
+label: "Secondary",
+a: "Investment Rate from Recommendations",
+b: "Validates whether recommendations successfully drive investment decisions."
+},
+{
+label: "Guardrail",
+a: "30-Day Retention",
+b: "Ensures activation improvements translate into sustained engagement."
+},
+{
+label: "Guardrail",
+a: "Quiz Drop-off Rate",
+b: "Monitors whether the onboarding flow introduces excessive friction."
+}
+]}
+/>
+
+## Risks & Mitigations
+
+<ComparisonTable
+headers={["Risk", "Mitigation", "Detection Signal"]}
+rows={[
+{
+label: "Quiz Avoidance",
+a: "Keep the flow short, communicate value clearly, and make guidance optional.",
+b: "Quiz start and completion rates."
+},
+{
+label: "Low Trust",
+a: "Explain recommendation logic and clearly show fit criteria.",
+b: "Investment rate from recommendations."
+},
+{
+label: "Poor Recommendation Quality",
+a: "Use behavioural questions, transparent risk explanations, and editable preferences.",
+b: "30-day retention."
+},
+{
+label: "Inaccurate User Inputs",
+a: "Reduce ambiguity through guided questions and profile confirmation.",
+b: "Completion-time anomalies and recommendation engagement."
+}
+]}
+/>

@@ -28,13 +28,13 @@
 .imageWrapper {
   width: 100%;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 0px;
   position: relative;
 }
 
 /* Premium dynamic aspect ratios */
 .colsOne .imageWrapper {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
 }
 
 .colsTwo .imageWrapper {
@@ -57,7 +57,7 @@
   color: var(--color-text-muted);
   font-size: 0.875rem;
   text-align: center;
-  margin-top: 12px;
+  margin: 28px 24px 48px;
   line-height: 1.4;
 }
 

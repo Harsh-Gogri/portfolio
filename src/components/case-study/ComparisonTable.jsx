@@ -9,10 +9,7 @@ export default function ComparisonTable({ headers = [], rows = [] }) {
         <thead>
           <tr className={styles.headerRow}>
             {headers.slice(0, 3).map((header, idx) => (
-              <th 
-                key={idx} 
-                className={`${styles.th} ${idx === 1 ? styles.highlightedColHeader : ""}`}
-              >
+              <th key={idx} className={styles.th}>
                 {header}
               </th>
             ))}
@@ -24,10 +21,10 @@ export default function ComparisonTable({ headers = [], rows = [] }) {
               <td className={`${styles.td} ${styles.labelCell}`}>
                 {row.label}
               </td>
-              <td className={`${styles.td} ${styles.highlightedCell}`}>
+              <td className={styles.td}>
                 {row.a}
               </td>
-              <td className={`${styles.td} ${styles.valueCell}`}>
+              <td className={styles.td}>
                 {row.b}
               </td>
             </tr>

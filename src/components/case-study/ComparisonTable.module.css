@@ -5,7 +5,7 @@
   margin: var(--spacing-md) 0;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  background-color: var(--color-bg-secondary);
+  background-color: transparent;
 }
 
 .table {
@@ -13,7 +13,8 @@
   border-collapse: collapse;
   text-align: left;
   font-family: var(--font-body);
-  min-width: 600px; /* Forces scroll container behavior on small screens */
+  min-width: 600px;
+  /* Forces scroll container behavior on small screens */
 }
 
 .th {
@@ -22,8 +23,7 @@
   font-size: clamp(0.9rem, 2vw, 1rem);
   font-weight: 600;
   color: var(--color-text);
-  border-bottom: 2px solid var(--color-border);
-  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .td {
@@ -37,32 +37,17 @@
   border-bottom: none;
 }
 
-/* Alternating Row Backgrounds */
+/* Alternating Row Backgrounds - Removed to keep transparent background */
 .bodyRow:nth-child(even) {
-  background-color: var(--color-bg-secondary);
+  background-color: transparent;
 }
 
 .bodyRow:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.015);
+  background-color: transparent;
 }
 
 /* First Column (Labels) in muted color */
 .labelCell {
   color: var(--color-text-muted) !important;
   font-weight: 500;
-}
-
-/* First Comparison Column (Col A) subtly highlighted */
-.highlightedColHeader {
-  position: relative;
-  background-color: rgba(255, 99, 49, 0.04) !important;
-}
-
-.highlightedCell {
-  background-color: rgba(255, 99, 49, 0.04) !important;
-  font-weight: 500;
-}
-
-.bodyRow:nth-child(even) .highlightedCell {
-  background-color: rgba(255, 99, 49, 0.06) !important;
 }
