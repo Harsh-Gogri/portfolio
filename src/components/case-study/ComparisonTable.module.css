@@ -1,0 +1,68 @@
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: var(--spacing-md) 0;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg-secondary);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: var(--font-body);
+  min-width: 600px; /* Forces scroll container behavior on small screens */
+}
+
+.th {
+  padding: 16px 20px;
+  font-family: var(--font-heading);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 600;
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+}
+
+.td {
+  padding: 16px 20px;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.bodyRow:last-child .td {
+  border-bottom: none;
+}
+
+/* Alternating Row Backgrounds */
+.bodyRow:nth-child(even) {
+  background-color: var(--color-bg-secondary);
+}
+
+.bodyRow:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+/* First Column (Labels) in muted color */
+.labelCell {
+  color: var(--color-text-muted) !important;
+  font-weight: 500;
+}
+
+/* First Comparison Column (Col A) subtly highlighted */
+.highlightedColHeader {
+  position: relative;
+  background-color: rgba(255, 99, 49, 0.04) !important;
+}
+
+.highlightedCell {
+  background-color: rgba(255, 99, 49, 0.04) !important;
+  font-weight: 500;
+}
+
+.bodyRow:nth-child(even) .highlightedCell {
+  background-color: rgba(255, 99, 49, 0.06) !important;
+}

@@ -17,27 +17,13 @@
 }
 
 .caseStudy p {
-  font-family: var(--font-body);
-  font-size: 1rem;
   line-height: 1.75;
-  color: var(--color-text-muted);
   margin-bottom: 20px;
-}
-
-.caseStudy blockquote {
-  border-left: 3px solid var(--color-primary);
-  padding-left: 20px;
-  font-style: italic;
-  color: var(--color-text-muted);
-  margin: 32px 0;
 }
 
 .caseStudy ul,
 .caseStudy ol {
-  font-family: var(--font-body);
-  font-size: 1rem;
   line-height: 1.75;
-  color: var(--color-text-muted);
   padding-left: 20px;
   margin-bottom: 20px;
 }
@@ -45,4 +31,16 @@
 .caseStudy a {
   color: var(--color-primary);
   text-decoration: underline;
+}
+
+.caseStudy p,
+ul,
+ol,
+a {
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 300;
+  opacity: 0.95;
+
 }
