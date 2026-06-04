@@ -35,7 +35,7 @@
 .sourcePill {
   border: 1px solid var(--color-border);
   border-radius: 100px;
-  padding: 4px 12px;
+  padding: 8px 12px;
   font-family: var(--font-body);
   font-size: 0.75rem;
   color: var(--color-text-muted);
@@ -87,7 +87,8 @@
   .card {
     width: 85vw;
     height: auto;
-    aspect-ratio: 2/3;
+    aspect-ratio: 8/11;
+    padding: 24px;
     flex-shrink: 0;
     gap: 12px;
   }
@@ -108,7 +109,7 @@
   }
 
   .content {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .reviewerInfo {

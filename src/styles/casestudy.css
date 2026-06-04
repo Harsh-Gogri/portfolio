@@ -44,3 +44,17 @@ a {
   opacity: 0.95;
 
 }
+
+.caseStudy hr {
+  height: 0.5px;
+  background-color: var(--color-border);
+  border: 0px;
+  margin-block: 60px;
+}
+
+@media (max-width: 768px) {
+  .caseStudy hr {
+    height: 2px;
+    margin-block: 40px;
+  }
+}
