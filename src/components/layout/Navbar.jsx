@@ -50,13 +50,13 @@ export default function Navbar() {
           </div>
 
           <div className={styles.center}>
-            <MagneticLink href="#">Works</MagneticLink>
+            <MagneticLink href="/work">Works</MagneticLink>
             <MagneticLink href="#">Resume</MagneticLink>
           </div>
 
           <div className={styles.right}>
-            <MagneticLink href="https://www.linkedin.com/in/harshgogri02/">LinkedIn</MagneticLink>
-            <MagneticLink href="mailto:gogriharsh1@gmail.com">Email</MagneticLink>
+            <MagneticLink href="https://www.linkedin.com/in/harshgogri02/" target="_blank" rel="noopener noreferrer">LinkedIn</MagneticLink>
+            <MagneticLink href="mailto:gogriharsh1@gmail.com" target="_blank" rel="noopener noreferrer">Email</MagneticLink>
           </div>
 
           <button type="button" className={styles.hamburger} aria-label="Open menu" onClick={() => setIsMenuOpen(true)}>
@@ -71,7 +71,7 @@ export default function Navbar() {
         </button>
 
         <div className={styles.overlayLinks}>
-          <a href="#" onClick={closeMenu}>
+          <a href="/work" onClick={closeMenu}>
             Works
           </a>
           <a href="#" onClick={closeMenu}>

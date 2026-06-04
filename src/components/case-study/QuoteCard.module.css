@@ -54,3 +54,11 @@
 .author {
   margin-top: 20px;
 }
+
+@media (max-width: 767px) {
+
+  .card {
+    padding: 24px 28px;
+  }
+
+}

@@ -73,4 +73,10 @@
   .colsThree .imageWrapper {
     aspect-ratio: 16 / 10;
   }
+
+  .caption {
+    font-size: 0.75rem;
+    text-align: left;
+    margin: 12px 0;
+  }
 }

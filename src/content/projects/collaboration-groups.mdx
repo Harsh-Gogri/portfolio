@@ -1,1 +1,115 @@
-Placeholder content for Collaboration Groups case study.
+## Overview
+
+Collaboration Groups enables users to share their digital assets with contacts through organized groups with role-based permissions. Users can create groups with up to two admins and assign three additional roles (Manager, Editor, Viewer) with specific access levels.
+
+The feature offers flexible sharing options — real-time, terminally ill, or posthumous sharing — allowing users to control when their shared assets become accessible to group members.
+
+This desktop redesign focused on simplifying the complex permission system, improving visual clarity, and creating a seamless experience that integrates with Mitt Arv's Asset Vault.
+
+---
+
+## Challenge
+
+<CalloutBox type="problem">
+  The existing Collaboration interface created significant friction in what should be a straightforward sharing process. The UI was confusing and cluttered, making it difficult for users to understand the permission structure and manage their groups effectively.
+</CalloutBox>
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/68fd248f19360870c0d7c882_Collaboration%20-%20Landing%20page.jpeg", alt: "Collaboration Landing Page (Before)", caption: "Original landing page with cluttered layout and unclear structure." }
+]} />
+
+**Complex Group Creation Process:**
+The workflow for creating collaboration groups felt unnecessarily complicated with multiple steps that weren't clearly indicated. Users had to navigate through unclear paths just to set up basic sharing permissions.
+
+**No Upfront Role Visibility:**
+When users landed on the collaboration dashboard, there was no immediate information about their assigned roles or what restrictions applied to them. This lack of transparency forced users to discover limitations through trial and error rather than seeing their permissions upfront.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/68fd24b40ddfca807025ec4b_Collaboration%20-%20Dashboard.jpeg", alt: "Collaboration Dashboard (Before)", caption: "Original dashboard with no upfront role visibility." }
+]} />
+
+**Viewport Clutter and Poor Space Utilization:**
+When opening a collaboration group, both the main collaboration dashboard and the group dashboard stacked horizontally, creating cramped, competing sections. Editing roles and access settings triggered small modals that had nowhere to breathe in an already cluttered viewport.
+
+The top portion of the screen remained empty while valuable space was wasted, and the persistent "Create a new contact" panel occupied premium real estate where it wasn't contextually necessary — reducing the space available for core collaboration workflows.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/68fd2501db8ae09b09ea40eb_Collaboration%20-%20Edit%20Access.jpeg", alt: "Edit Access Clutter (Before)", caption: "Edit access modal cramped within an already cluttered viewport." }
+]} />
+
+**Responsive Breakdown:**
+These space utilization problems were compounded by poor responsiveness. On smaller viewports, the already cluttered interface became nearly unusable, with inaccessible controls making the sensitive task of managing and sharing assets frustrating and error-prone.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/68fd24c3bf3aca1a8d530704_Collaboration%20-%20Edit%20Access.jpeg", alt: "Responsive Breakdown (Before)", caption: "Interface breaking down on smaller viewport sizes." }
+]} />
+
+---
+
+## Approach
+
+The strategy centered on creating a consistent, intuitive experience that aligned with Mitt Arv's other features while dramatically simplifying the collaboration workflow.
+
+**Design System Consistency:**
+Visual and interaction patterns established in the Emotional Will and Asset Vault features were maintained, creating a cohesive product experience. Users familiar with one feature could immediately understand how to navigate Collaboration Groups.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/69079782005b4b743e39bb21_Collaboration%20Group%20Landing%20Page.jpeg", alt: "Redesigned Landing Page (Empty State)", caption: "Redesigned landing page in empty state with clear hierarchy." }
+]} />
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/6907978e3a8e5318f1986776_Collaboration%20Group%20Landing%20Page%20Filled.jpeg", alt: "Redesigned Landing Page (Filled State)", caption: "Redesigned landing page in filled state showing group cards." }
+]} />
+
+**Simplified Group Creation Process:**
+A modal-based approach was implemented for creating new groups, assigning roles, and adding assets. This focused interaction eliminates distractions and guides users through the sharing process step by step.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/6907979e93242827bdb7266b_Collaboration%20Group%20Name.jpeg", alt: "Group Creation — Name Step", caption: "Step 1: Naming the collaboration group in a focused modal." }
+]} />
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/690797b17e187402acbabc9e_Collaboration%20Group%20Add%20Contacts.jpeg", alt: "Group Creation — Add Contacts Step", caption: "Step 2: Adding contacts to the group." }
+]} />
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/690797c21f4a5827fe71f0e5_Collaboration%20Group%20Assign%20Role.jpeg", alt: "Group Creation — Assign Role Step", caption: "Step 3: Assigning roles to each added contact." }
+]} />
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/690797d0c634cb1c877f9087_Collaboration%20Group%20Created.jpeg", alt: "Group Created Confirmation", caption: "Confirmation state after group creation is complete." }
+]} />
+
+**Roles Transparency:**
+The redesign presents roles and permissions immediately and clearly on the dashboard itself. Users can see at a glance what they're allowed to do within each group, with visual differentiation. This upfront clarity eliminates the guesswork that plagued the previous version.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/6907aea16f598345e68e2eb2_Collab%20Grp%20Roles.gif", alt: "Roles Transparency — Animated", caption: "Role indicators surfaced directly on the dashboard for immediate clarity." }
+]} />
+
+**Easy Modifying Options for Admins:**
+Administrative controls were streamlined, making it simple for admins to manage members, rename groups, assign or change roles, and manage shared assets — all from intuitive, accessible locations within the interface.
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/6907b38a86e3960450cf98fe_Admin%20edit%20options.jpeg", alt: "Admin Edit Options", caption: "Streamlined admin edit controls accessible from the group view." }
+]} />
+
+<ImageGallery images={[
+  { src: "https://cdn.prod.website-files.com/6772e66ddfd2c58201e2c6c9/6907b39970022953c0859cca_Admin%20manage%20members.jpeg", alt: "Admin Manage Members", caption: "Admin member management panel with clear role assignment options." }
+]} />
+
+---
+
+## Final Thoughts
+
+<CalloutBox type="note">
+  The redesign successfully simplified a complex feature, making role-based permissions and asset collaboration intuitive for users across all familiarity levels.
+</CalloutBox>
+
+---
+
+## Credits
+
+### Company
+
+All work showcased in this portfolio is solely for demonstration purposes. Rights, ownership, and intellectual property for these projects belong exclusively to <a href="https://app.mittarv.com/profile/collaborations">Mitt Arv</a>.

@@ -151,16 +151,15 @@
 
 .overlayLinks {
   margin-top: auto;
-  padding: var(--spacing-sm);
-  padding-bottom: calc(var(--spacing-xl) + var(--spacing-lg));
+  padding: 48px;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: 24px;
 }
 
 .overlayLinks a {
-  font-family: var(--font-body);
-  font-size: 42px;
+  font-family: var(--font-heading);
+  font-size: 52px;
   color: var(--color-text);
 }
 
