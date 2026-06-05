@@ -1,122 +1,197 @@
 ## Overview
 
-The UPI Shield is a proactive fraud prevention engine integrated directly within mobile payment client architectures. Its primary goal is to address the rapid rise of social engineering scams in India's peer-to-peer digital payment ecosystem. By combining local device heuristics with backend machine learning model scoring, the system detects suspicious request patterns, alerts users before transactions are confirmed, and protects vulnerable user cohorts from financial exploitation.
+UPI powers India's digital economy with billions of monthly transactions, but as adoption grows, so do fraud risks. This project explores how fraud prevention can shift from post-transaction detection to pre-transaction decision support.
 
-This case study outlines the end-to-end design process, technical challenges, and product metrics associated with building a real-time defensive overlay. The system aims to mitigate fraud without introducing unnecessary friction for day-to-day verified transactions, striking a delicate balance between security enforcement and user experience consistency.
+UPI Shield is a concept feature that introduces a real-time risk awareness layer within the payment flow, enabling users to make safer decisions before sending money.
 
-## Impact
+---
+
+## Research & Problem Framing
 
 <StatGrid items={[
-  { value: "98.4%", label: "Real-time scam attempts successfully intercepted" },
-  { value: "12ms", label: "Average latency of local heuristic inference" },
-  { value: "$4.2M", label: "Total user funds secured during pilot phase" },
-  { value: "-45%", label: "Drop in successful account takeover occurrences" },
-  { value: "4.8/5", label: "User confidence score under safety verification" }
+  { value: "13.42L", label: "UPI fraud incidents worth ₹1,087 crore reported in FY24" },
+  { value: "12.64L", label: "UPI fraud incidents worth ₹981 crore recorded in FY25" },
+  { value: "10.64L", label: "UPI fraud incidents worth ₹805 crore in H1 FY26 (Apr–Nov 2025)" }
 ]} />
 
----
-
-## Problem
-
-<CalloutBox type="problem">
-  UPI fraud has transitioned from technical exploits to social engineering tactics. Attackers leverage user trust and behavioral urgency to trick them into authorizing fraudulent transfers, typically by misrepresenting PIN authorization dialogs.
+<CalloutBox type="note">
+  Source: Ministry of Finance, Parliament data
 </CalloutBox>
-
-Traditional payment apps treat security as a binary gate at the end of the transaction flow. When scammers mask payment requests under fake "Cashback Reward" or "Refund Processing" banners, users input their secret UPI PIN without realizing they are sending money instead of receiving it.
-
-To address this challenge, we needed to solve three core sub-problems:
-- **Lack of Contextual Awareness**: Standard UPI transactions do not differentiate between transferring to a familiar peer and sending to a newly registered account requesting money.
-- **Cognitive Distraction**: Scam UI layouts are optimized to confuse users and distract them from verification warnings.
-- **Urgency Exploitation**: Scammers use live phone calls or timer overlays to create high pressure, forcing quick decisions.
-
----
-
-## Research
-
-<QuoteCard 
-  quote="I got an SMS saying my electricity bill was unpaid and power would be cut. The agent on the call told me to scan a QR code they sent to confirm. I saw the screen, entered my PIN, and then my bank balance went to zero. It happened in seconds." 
-  author="Vikram Deshmukh" 
-  role="UPI User (Pune, India)" 
-/>
 
 <CalloutBox type="insight">
-  Users rarely read warning labels when they are in a high-stress or high-urgency state. Defensive overlays must utilize structural friction—like forced interaction halts or pattern mismatches—to break the user's auto-pilot mindset.
+  Most fraud does not occur due to system vulnerabilities, but because users are not equipped with the right signals at the moment of decision-making. Today, users are expected to trust unfamiliar QR codes or UPI IDs without any contextual verification.
 </CalloutBox>
 
----
-
-## Approach
-
-We adopted a phased approach to design a solution that integrates real-time ML risk scoring with an intuitive intervention framework.
-
-<Accordion items={[
-  {
-    title: "Discovery Phase",
-    children: (
-      <>
-        <p>During discovery, we reviewed over 5,000 fraud records in bank logs. We discovered that most fraud transactions occur on newly created accounts with highly asymmetrical send/receive ratios.</p>
-        <p>We conducted 12 remote interviews with scam victims to map the emotional journey from the initial alert to the realization of financial loss.</p>
-      </>
-    )
-  },
-  {
-    title: "Ideation Phase",
-    children: (
-      <>
-        <p>The product and design teams brainstormed multiple security interventions, including multi-factor SMS codes, delayed transfers, and interactive security screens.</p>
-        <p>We decided on a dynamic contextual overlay system that adjusts visual warning friction depending on the calculated risk level of the transaction destination.</p>
-      </>
-    )
-  },
-  {
-    title: "Validation Phase",
-    children: (
-      <>
-        <p>We created interactive prototypes in Figma simulating fraudulent cashbacks and QR codes. We tested these prototypes on a cohort of 30 elderly and non-tech-savvy users.</p>
-        <p>Testing showed that introducing a mandatory 3-second hold and visual checklist reduced accidental PIN submission by 93%.</p>
-      </>
-    )
-  }
-]} />
+<QuoteCard
+  quote="UPI fraud is a decision-stage problem, not a technology failure."
+  author="Key Insight"
+  role="UPI Shield Research"
+/>
 
 ---
 
-## Screens
+## User Segments
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/upi-shield.jpeg", alt: "UPI Shield Scan Warning", caption: "High-risk QR warnings intercepting blacklisted or newly created merchant identifiers." },
-  { src: "/images/assets/work/UPI Shield/upi-shield.jpeg", alt: "UPI Shield Dynamic Challenge", caption: "Forced cognitive pattern check explaining that money is leaving the user's account." },
-  { src: "/images/assets/work/UPI Shield/upi-shield.jpeg", alt: "UPI Shield Safe State", caption: "Verified green state indicator displaying trusted and verified merchant status." }
-]} />
-
----
-
-## Tradeoffs
-
-Designing the friction overlay required carefully balancing user experience ease against system safety indicators.
-
-<ComparisonTable 
-  headers={["Design Dimension", "Real-Time Defensive Intervention (Chosen)", "Post-Facto Transaction Recovery"]}
+<ComparisonTable
+  headers={["Dimension", "Frequent Transactor", "Cautious Transactor"]}
   rows={[
-    { label: "Core Mechanism", a: "Blocks user action using real-time machine learning warnings.", b: "Allows payment to complete, but tracks and claws back fraudulent funds." },
-    { label: "User Friction", a: "Introduces small delays during suspicious transactions.", b: "Maintains zero friction during checkout but high downstream support load." },
-    { label: "Overall Efficacy", a: "Stops fund leaks instantly before money leaves the bank account.", b: "Recoveries depend on bank collaboration and speed, rarely exceeding 15%." }
+    { label: "Behavior", a: "Makes multiple small-value transactions daily — friends, deliveries, marketplace sellers.", b: "Makes infrequent payments, often high-value or to unfamiliar accounts." },
+    { label: "Attitude to Risk", a: "Often sends money to new or unfamiliar UPI IDs. Prioritizes speed over verification.", b: "Lacks confidence in identifying fraud. More likely to rely on instructions from others." },
+    { label: "Core Need", a: "Safety checks without compromising speed.", b: "A quick, reliable way to verify credibility before paying." }
   ]}
 />
 
 ---
 
-## Note
+## Core Problems
+
+<CalloutBox type="problem">
+  Users cannot evaluate QR codes or UPI IDs before paying. There is no quick credibility check for unfamiliar recipients, the payment flow prioritizes speed over safety signals, and fraud exploits decision gaps — not technical vulnerabilities.
+</CalloutBox>
+
+**User Stories**
+
+> As a user making a payment by scanning a QR code, I want to see potential fraud signals before sending money, so that I can avoid paying a suspicious account.
+
+> As a user receiving an unfamiliar UPI ID, I want to check its credibility quickly, so that I can decide whether the payment is safe.
+
+> As a user who encounters suspicious payment requests, I want to report them easily, so that others can avoid potential scams.
+
+---
+
+## Opportunity & Strategy
+
+The opportunity lies in embedding lightweight risk awareness directly within the payment journey, without disrupting the speed that makes UPI successful. Instead of blocking transactions, the strategy focuses on surfacing just-in-time risk signals, allowing users to opt into deeper analysis while preserving a fast, uninterrupted payment flow.
+
+<ComparisonTable
+  headers={["Dimension", "Current State", "UPI Shield"]}
+  rows={[
+    { label: "Risk Visibility", a: "No signals before payment confirmation.", b: "Real-time risk indicators surfaced during the flow." },
+    { label: "User Control", a: "Users proceed with no option to verify.", b: "Optional deeper analysis before committing to a transfer." },
+    { label: "Fraud Response", a: "Post-transaction detection and recovery.", b: "Pre-transaction decision support and fraud reporting." },
+    { label: "Payment Speed", a: "Fast but uninformed.", b: "Fast by default, with optional friction for risky transactions." }
+  ]}
+/>
+
+---
+
+## Goals & Metrics
+
+<StatGrid items={[
+  { value: "30%", label: "Target payment attempts with risk review within 4 months of launch" },
+  { value: "0", label: "Significant increase in payment completion time — guardrail" },
+  { value: "0%", label: "Drop in payment success rate — guardrail" }
+]} />
+
+<ComparisonTable
+  headers={["Metric", "Type", "Why It Matters"]}
+  rows={[
+    { label: "Risk Analysis Engagement Rate", a: "Primary", b: "% of payment attempts where users open or view risk analysis before completing a transaction." },
+    { label: "Risk Check Interaction Rate", a: "Supporting", b: "Measures feature discoverability within the payment flow." },
+    { label: "Payment Cancellation Rate Post Risk Alert", a: "Supporting", b: "Indicates whether fraud warnings are driving meaningful user action." },
+    { label: "Report Suspicious QR/VPA Engagement Rate", a: "Supporting", b: "Validates whether users are taking action on suspicious QR/VPA." }
+  ]}
+/>
+
+---
+
+## Solution: UPI Shield
+
+UPI Shield introduces a lightweight, optional security layer integrated directly into the payment flow.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/UPI Shield/upi-shield.jpeg", alt: "4 Key Features of UPI Shield", caption: "The four core components of UPI Shield." }
+]} />
+
+**1. Scan QR with Risk Awareness**
+
+Scan QR → System detects UPI ID → User enters amount → Open risk analysis panel (optional) → View risk signals → Proceed or Cancel.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/UPI Shield/Scan QR.jpeg", alt: "Scan QR Flow", caption: "QR scan flow with risk awareness integrated at the confirmation step." }
+]} />
+
+<ImageGallery images={[
+  { src: "/images/assets/work/UPI Shield/Risk Analysis.jpeg", alt: "Risk Analysis Panel", caption: "Optional risk analysis panel surfaced before payment confirmation." }
+]} />
+
+**2. UPI ID Analyzer**
+
+Enter UPI ID → System analyzes ID structure and signals → Risk analysis generated → User reviews credibility signals.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/UPI Shield/Scam Radar.jpeg", alt: "UPI ID Analyzer — Scam Radar", caption: "Scam Radar enabling users to check a UPI ID before initiating a payment." }
+]} />
+
+**3. Fraud Reporting**
+
+Select Report Fraud → Choose report type (UPI ID or QR Code) → Submit ID or upload QR image → Describe suspicious activity → Submit report.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/UPI Shield/Report Fraud.jpeg", alt: "Fraud Reporting", caption: "Fraud reporting flow accessible directly within the payment experience." }
+]} />
+
+**4. AI Knowledge Hub**
+
+<ImageGallery images={[
+  { src: "/images/assets/work/UPI Shield/Knowledge Hub.jpeg", alt: "AI Knowledge Hub", caption: "AI-powered knowledge hub helping users identify and avoid common scam patterns." }
+]} />
+
+---
+
+## System Thinking
+
+**Risk Scoring Logic**
+
+The risk scoring system is conceptualized as a multi-signal evaluation engine. Instead of relying on a single metric, it combines multiple indicators — identifier patterns, suspicious keywords, and known fraud behaviors. The output is not just a score, but an explainable risk breakdown, which is critical for building user trust. Users are more likely to act on warnings when they understand why something is risky.
+
+**Event Tracking Plan**
+
+<ComparisonTable
+  headers={["Event Name", "Trigger", "Description"]}
+  rows={[
+    { label: "QR Scan Completed", a: "User scans a QR code", b: "System detects UPI ID from QR." },
+    { label: "VPA Check Started", a: "User opens UPI ID Analyzer", b: "User enters a UPI ID for analysis." },
+    { label: "Risk Analysis Viewed", a: "User opens risk panel", b: "User opens fraud risk insights during payment." },
+    { label: "Fraud Report Started", a: "User selects Report Fraud", b: "User opens the fraud report flow." },
+    { label: "Fraud Report Submitted", a: "User submits report", b: "User successfully submits suspicious VPA or QR." }
+  ]}
+/>
+
+---
+
+## Challenges & Constraints
+
+<ComparisonTable
+  headers={["Challenge", "Constraint", "Decision"]}
+  rows={[
+    { label: "Speed vs Safety", a: "UPI's core value lies in instant transactions. Introducing friction risks drop-offs.", b: "Keep all risk interactions optional and non-blocking." },
+    { label: "Trust in Risk Signals", a: "Overly aggressive warnings create alert fatigue; weak signals fail to prevent fraud.", b: "Prioritize explainability — show why something is risky instead of black-box scoring." },
+    { label: "Lack of Primary Research", a: "Project relied entirely on secondary research without user interviews or usability validation.", b: "Ground decisions in industry data and known behavioral fraud patterns." },
+    { label: "Technical & Compliance Dependencies", a: "Requires QR parsing, camera integration, risk engine API, and financial warning compliance.", b: "Scoped as concept; dependencies flagged for implementation phase." }
+  ]}
+/>
+
+---
+
+## Dependencies
 
 <CalloutBox type="note">
-  UPI Shield is developed in collaboration with leading NPCI security guidelines, assuring complete compliance with national banking standards and encryption security.
+  Implementation depends on: QR scanning and camera access integration, risk analysis logic for VPA/QR detection, backend or API support for fraud signal evaluation, analytics tracking implementation, and compliance review for fraud warning messaging.
 </CalloutBox>
+
+---
+
+## Expected Impact
+
+UPI Shield is designed to influence user behavior at the most critical moment — just before a payment is completed. By introducing contextual risk signals, the product aims to increase user awareness during transactions, reduce impulsive or manipulated payments, and improve confidence when dealing with unfamiliar recipients.
+
+From a product perspective, this translates to lower fraud success rates and stronger trust in digital payments. The primary success benchmark is achieving 30%+ engagement with risk signals before payment completion.
 
 ---
 
 ## Links
 
-<LinksSection links={[
-  { href: "https://github.com", label: "Interactive Prototype" },
-  { href: "https://google.com", label: "Figma Design System" }
-]} />
+<a href="https://drive.google.com/file/d/1Y8E4SfWviHn-U9mpxk9ByOAKnIvDSP20/view" target="_blank" rel="noopener noreferrer">Presentation</a> |
+<a href="https://drive.google.com/file/d/1YUgUQVIym5R-IHtyQ4Qfx_tyeUeXR3ZB/view" target="_blank" rel="noopener noreferrer">PRD</a> |
+<a href="https://harsh-gogri.github.io/UPI-shield/" target="_blank" rel="noopener noreferrer">Prototype</a>

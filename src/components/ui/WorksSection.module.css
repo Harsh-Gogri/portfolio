@@ -163,14 +163,14 @@
 
   .company {
     font-family: var(--font-body);
-    font-size: 1rem;
-    color: var(--color-text);
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
     margin-bottom: 4px;
   }
 
   .title {
-    font-family: var(--font-body);
-    font-size: 1.2rem;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
     color: var(--color-text);
   }
 
