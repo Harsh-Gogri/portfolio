@@ -6,6 +6,23 @@ import { PROFILE_PHOTO_SRC } from "@/lib/profilePhoto";
 import MagneticLink from "@/components/ui/MagneticLink";
 import styles from "./Navbar.module.css";
 
+const isExternal = (href) => href.startsWith("http://") || href.startsWith("https://");
+
+const externalProps = (href) =>
+  isExternal(href) ? { target: "_blank", rel: "noopener noreferrer" } : {};
+
+const centerLinks = [
+  { label: "Works", href: "/work" },
+  { label: "Resume", href: "https://drive.google.com/file/d/1CjndiUMJLbSS8YI1f-9T0NnA2BbJ_RFM/view" },
+];
+
+const rightLinks = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/harshgogri02/" },
+  { label: "Email", href: "mailto:gogriharsh1@gmail.com" },
+];
+
+const overlayLinks = [...centerLinks, ...rightLinks];
+
 export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,21 +36,15 @@ export default function Navbar() {
         setIsHidden(false);
       } else {
         const diff = currentScrollY - lastScrollY.current;
-        if (diff > 5) {
-          setIsHidden(true);
-        } else if (diff < -5) {
-          setIsHidden(false);
-        }
+        if (diff > 5) setIsHidden(true);
+        else if (diff < -5) setIsHidden(false);
       }
 
       lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -50,13 +61,19 @@ export default function Navbar() {
           </div>
 
           <div className={styles.center}>
-            <MagneticLink href="/work">Works</MagneticLink>
-            <MagneticLink href="#">Resume</MagneticLink>
+            {centerLinks.map(({ label, href }) => (
+              <MagneticLink key={label} href={href} {...externalProps(href)}>
+                {label}
+              </MagneticLink>
+            ))}
           </div>
 
           <div className={styles.right}>
-            <MagneticLink href="https://www.linkedin.com/in/harshgogri02/" target="_blank" rel="noopener noreferrer">LinkedIn</MagneticLink>
-            <MagneticLink href="mailto:gogriharsh1@gmail.com" target="_blank" rel="noopener noreferrer">Email</MagneticLink>
+            {rightLinks.map(({ label, href }) => (
+              <MagneticLink key={label} href={href} {...externalProps(href)}>
+                {label}
+              </MagneticLink>
+            ))}
           </div>
 
           <button type="button" className={styles.hamburger} aria-label="Open menu" onClick={() => setIsMenuOpen(true)}>
@@ -71,18 +88,11 @@ export default function Navbar() {
         </button>
 
         <div className={styles.overlayLinks}>
-          <a href="/work" onClick={closeMenu}>
-            Works
-          </a>
-          <a href="#" onClick={closeMenu}>
-            Resume
-          </a>
-          <a href="https://www.linkedin.com/in/harshgogri02/" onClick={closeMenu}>
-            LinkedIn
-          </a>
-          <a href="mailto:gogriharsh1@gmail.com" onClick={closeMenu}>
-            Email
-          </a>
+          {overlayLinks.map(({ label, href }) => (
+            <a key={label} href={href} onClick={closeMenu} {...externalProps(href)}>
+              {label}
+            </a>
+          ))}
         </div>
       </div>
     </>

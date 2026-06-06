@@ -34,15 +34,14 @@
 }
 
 .caseStudy p,
-ul,
-ol,
-a {
+.caseStudy ul,
+.caseStudy ol,
+.caseStudy a {
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 300;
   opacity: 0.95;
-
 }
 
 .caseStudy hr {

@@ -115,7 +115,7 @@
 .viewAllText {
   font-family: var(--font-body);
   font-size: 1rem;
-  color: #fff;
+  color: var(--color-bg-secondary);
   display: inline-block;
   will-change: transform;
 }

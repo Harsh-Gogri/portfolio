@@ -91,7 +91,7 @@
 .tooltipImage {
   display: block;
   border-radius: 6px;
-  box-shadow: 0 6px 20px rgba(42, 42, 42, 0.12);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-text) 12%, transparent);
 }
 
 .nameWrapOpen .tooltipImage {

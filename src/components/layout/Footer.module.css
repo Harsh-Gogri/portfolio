@@ -1,0 +1,162 @@
+/* ─── Outer wrapper ─────────────────────────────────────────────── */
+.footer {
+  width: 100%;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+/* ─── Inner container ───────────────────────────────────────────── */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) 24px var(--spacing-lg);
+}
+
+/* ─── Two-column top row ────────────────────────────────────────── */
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+}
+
+/* ─── Left column ───────────────────────────────────────────────── */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.accent {
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+.contact {
+  padding-left: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contactLabel {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.email {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.email:hover {
+  color: var(--color-primary);
+}
+
+/* ─── Right column ──────────────────────────────────────────────── */
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+  padding-top: 16px;
+}
+
+.navLink {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 120px;
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 400;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+}
+
+/* ─── Arrow icon (shared) ───────────────────────────────────────── */
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ─── Watermark bar ─────────────────────────────────────────────── */
+.watermarkBar {
+  width: 100%;
+  padding: var(--spacing-md) 0 0;
+  /* Graph-paper background using CSS gradients */
+  background-image:
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-bg));
+  border-top: 1px solid var(--color-border);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.watermarkText {
+  display: block;
+  width: 100%;
+  font-family: var(--font-heading);
+  font-size: clamp(18vw, 22vw, 26vw);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+  color: color-mix(in srgb, var(--color-border) 80%, var(--color-bg));
+  white-space: nowrap;
+  text-align: center;
+  /* Pixelated / bitmap rendering */
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  text-rendering: optimizeSpeed;
+}
+
+/* ─── Mobile ────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-lg) 20px var(--spacing-md);
+  }
+
+  .topRow {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .right {
+    align-items: flex-start;
+  }
+
+  .watermarkText {
+    font-size: 28vw;
+  }
+}

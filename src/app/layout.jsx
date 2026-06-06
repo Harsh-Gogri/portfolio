@@ -1,4 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import { bricolageGrotesque, geist, inter } from "@/lib/fonts";
 import "@/styles/globals.css";
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
       <body>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
