@@ -52,7 +52,7 @@
 
 .contactLabel {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--color-text-muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -63,7 +63,7 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
   color: var(--color-text);
   text-decoration: none;
   transition: color 0.18s ease;
@@ -77,6 +77,8 @@
 .right {
   display: flex;
   flex-direction: column;
+  height: stretch;
+  justify-content: space-between;
   align-items: flex-end;
   gap: var(--spacing-sm);
   padding-top: 16px;
@@ -149,11 +151,19 @@
 
   .topRow {
     flex-direction: column;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
+  }
+
+  .contact {
+    padding-left: 0px;
   }
 
   .right {
     align-items: flex-start;
+  }
+
+  .right .arrowIcon {
+    display: none;
   }
 
   .watermarkText {
