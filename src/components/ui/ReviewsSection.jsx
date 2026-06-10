@@ -35,8 +35,8 @@ export default function ReviewsSection() {
       <div className={styles.container}>
         <div className={styles.headerRow}>
           <h2 className={styles.title}>
-            <span className={styles.titleText}>They said it,</span>
-            <span className={styles.titleMuted}>not me</span>
+            <span className={styles.titleText}>Trusted by</span>
+            <span className={styles.titleMuted}>founders!</span>
           </h2>
           <div className={styles.navigation}>
             <button className={styles.navButton} aria-label="Previous review" onClick={scrollLeft}>
