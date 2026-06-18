@@ -77,7 +77,7 @@
 .right {
   display: flex;
   flex-direction: column;
-  height: stretch;
+  align-self: stretch;
   justify-content: space-between;
   align-items: flex-end;
   gap: var(--spacing-sm);
@@ -129,7 +129,7 @@
   display: block;
   width: 100%;
   font-family: var(--font-heading);
-  font-size: clamp(18vw, 22vw, 26vw);
+  font-size: clamp(14vw, 18vw, 20vw);
   font-weight: 700;
   line-height: 0.82;
   letter-spacing: -0.03em;
@@ -137,10 +137,7 @@
   white-space: nowrap;
   text-align: center;
   /* Pixelated / bitmap rendering */
-  image-rendering: pixelated;
   -webkit-font-smoothing: none;
-  font-smooth: never;
-  text-rendering: optimizeSpeed;
 }
 
 /* ─── Mobile ────────────────────────────────────────────────────── */
@@ -166,7 +163,7 @@
     display: none;
   }
 
-  .watermarkText {
+  /* .watermarkText {
     font-size: 28vw;
-  }
+  } */
 }

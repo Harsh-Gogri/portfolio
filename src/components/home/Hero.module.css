@@ -25,6 +25,8 @@
   line-height: 1.4;
   letter-spacing: -0.02em;
   color: var(--color-text);
+  opacity: 0;
+  animation: revealDescription 0.8s ease 0.2s forwards;
 }
 
 .description {
@@ -38,6 +40,20 @@
   color: var(--color-text-muted);
   padding-left: var(--spacing-md);
   overflow: visible;
+  opacity: 0;
+  animation: revealDescription 0.8s ease 0.6s forwards;
+}
+
+@keyframes revealDescription {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .nameWrap {
@@ -66,7 +82,7 @@
   bottom: 100%;
   left: 50%;
   z-index: 20;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, 4px);

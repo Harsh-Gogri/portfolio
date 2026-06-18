@@ -78,10 +78,10 @@ export default function Hero() {
               <Image
                 src={PROFILE_PHOTO_SRC}
                 alt=""
-                width={132}
-                height={132}
+                width={180}
+                height={180}
                 className={styles.tooltipImage}
-                sizes="132px"
+                sizes="180px"
               />
             </span>
           </span>
