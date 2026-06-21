@@ -1,0 +1,88 @@
+/* ── Outer grid ──────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  width: 100%;
+  margin: var(--spacing-md) 0;
+}
+
+/* ── Individual cell ─────────────────────────────────────────────── */
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/*
+  Padding radiates outward from the center intersection.
+  Each side that faces the CENTER gets no padding (the divider line
+  sits there). Each side that faces the EDGE gets the spacing token.
+*/
+.topLeft {
+  padding: 0 var(--spacing-md) var(--spacing-md) 0;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topRight {
+  padding: 0 0 var(--spacing-md) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bottomLeft {
+  padding: var(--spacing-md) var(--spacing-md) 0 0;
+  border-right: 1px solid var(--color-border);
+}
+
+.bottomRight {
+  padding: var(--spacing-md) 0 0 var(--spacing-md);
+}
+
+/* ── Title ───────────────────────────────────────────────────────── */
+.title {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  line-height: 1.2;
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+/* ── Content ─────────────────────────────────────────────────────── */
+.content {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--color-text);
+  opacity: 0.9;
+  line-height: 1.6;
+  margin: 0;
+  margin-bottom: 0 !important;
+}
+
+/* ── Mobile: collapse to a single stacked column ─────────────────── */
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .topLeft,
+  .topRight,
+  .bottomLeft,
+  .bottomRight {
+    padding: var(--spacing-md) 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Last item in the stack has no trailing divider */
+  .bottomRight {
+    border-bottom: none;
+  }
+}

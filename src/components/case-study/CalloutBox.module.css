@@ -1,43 +1,67 @@
 .callout {
+  display: grid;
+  grid-template-columns: 2px 28px 1fr;
+  column-gap: 16px;
+  align-items: start;
   width: 100%;
-  margin: var(--spacing-sm) 0;
-  padding: 20px 24px;
-  border-left: 4px solid transparent;
-  border-radius: 0 8px 8px 0;
-  box-sizing: border-box;
+  margin: var(--spacing-lg, 32px) 0;
+  padding: 2px 0;
+}
+
+.callout::before {
+  content: "";
+  height: 24px;
+  width: 2px;
+  margin-top: 2px;
+  border-radius: 1px;
+}
+
+.insight::before {
+  background-color: #468432;
+}
+
+.problem::before {
+  background-color: #D25353;
+}
+
+.note::before {
+  background-color: #41444B;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+}
+
+.body {
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2vw, 1rem);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 6px;
 }
 
 .content {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
-  line-height: 1.6;
-  color: var(--color-text);
+  font-size: clamp(0.9rem, 1.8vw, 0.98rem);
+  line-height: 1.65;
+  color: var(--color-text-muted);
 }
 
-/* Specific styling for each type */
-.insight {
-  border-left-color: var(--color-primary);
-  background-color: color-mix(in srgb, var(--color-primary) 6%, transparent);
-}
-
-.problem {
-  border-left-color: var(--color-warning);
-  background-color: color-mix(in srgb, var(--color-warning) 6%, transparent);
-}
-
-.note {
-  border-left-color: var(--color-border);
-  background-color: color-mix(in srgb, var(--color-text-muted) 6%, transparent);
-}
-
-/* Ensure child paragraphs match the typography and don't introduce extra margins */
 .content p {
   font-family: var(--font-body);
-  color: var(--color-text-muted);
+  font-weight: 400;
+  opacity: 0.65;
+  color: var(--color-text);
   margin: 0;
 }
 
-.content p + p {
+.content p+p {
   margin-top: 12px;
 }
 

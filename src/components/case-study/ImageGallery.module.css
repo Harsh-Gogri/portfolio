@@ -35,6 +35,7 @@
 /* Premium dynamic aspect ratios */
 .colsOne .imageWrapper {
   aspect-ratio: 3 / 2;
+  margin-bottom: 28px;
 }
 
 .colsTwo .imageWrapper {
@@ -57,7 +58,7 @@
   color: var(--color-text-muted);
   font-size: 0.875rem;
   text-align: center;
-  margin: 28px 24px 48px;
+  margin: 0 24px 48px;
   line-height: 1.4;
 }
 

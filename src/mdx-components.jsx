@@ -6,6 +6,8 @@ import QuoteCard from "@/components/case-study/QuoteCard";
 import ComparisonTable from "@/components/case-study/ComparisonTable";
 import ImageGallery from "@/components/case-study/ImageGallery";
 import Accordion from "@/components/case-study/Accordion";
+import InsightCards from "@/components/case-study/InsightCards";
+import QuadrantGrid from "@/components/case-study/QuadrantGrid";
 
 export function useMDXComponents(components) {
   return {
@@ -17,6 +19,8 @@ export function useMDXComponents(components) {
     ComparisonTable,
     ImageGallery,
     Accordion,
+    InsightCards,
+    QuadrantGrid,
     ...components,
   };
 }

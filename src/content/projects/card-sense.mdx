@@ -1,0 +1,378 @@
+## Overview
+
+A chat-based RAG-powered credit card intelligence assistant - because 100 million Indians shouldn't need a law degree to understand their own rewards.
+
+---
+
+## The Problem
+
+India has 100M+ active credit card users. Reward structures are buried in 40-page MITC PDFs written in legal language. Someone with 3 cards from 3 different banks has no single place to ask: "Which card should I use for this purchase?"
+
+Every existing solution - Reddit, bank websites, financial influencers - is either outdated, biased, or leaves interpretation to the user.
+
+<InsightCards items={[
+  { title: "Complexity overload", description: "3 cards × 6 categories = 18 reward rules. Impossible to memorize at the point of purchase." },
+  { title: "Generic, ungrounded results", description: "Searches return advice not grounded in the user's specific card portfolio or current T&C." },
+  { title: "No natural language interface", description: "MITC PDFs are 40+ pages of legal language with no way to ask a plain question." },
+  { title: "Asterisks misread", description: "\"Up to 5X points\", on what exactly? Conditional clauses routinely get lost." },
+  { title: "Decision fatigue", description: "When clarity fails, users default-swipe. Value is lost, not recovered." }
+]} />
+
+---
+
+## Current Workflow
+
+The primary persona is Arjun - a salaried professional in his mid-20s with 3 credit cards across 3 banks. He uses them interchangeably without a clear strategy, and suspects he's leaving reward value on the table every month.
+
+1. A purchase moment arises - booking flights, ordering food
+2. Fails to recall which card is best for this category
+3. Searches Google, Reddit, bank websites - gets generic, outdated, or biased results
+4. Attempts to find the actual MITC PDF
+5. Gets a partial answer buried in legal language, misinterprets an asterisk
+6. Gives up and swipes the default card - unresolved, value lost not recovered
+
+<CalloutBox type="problem" title="The core problem">
+Reward structures are too complex to memorize, results are generic rather than grounded in the user's portfolio, and decision fatigue ends in a default swipe every time.
+</CalloutBox>
+
+---
+
+## Why RAG Fits
+
+Each product requirement maps directly to a RAG capability.
+
+<ComparisonTable
+  headers={["Requirement", "Why RAG fits"]}
+  rows={[
+    { label: "Answers must cite official source", a: "RAG retrieves from actual MITC documents, not model memory", b: "" },
+    { label: "Multi-card comparison", a: "Cross-document retrieval across banks within a single query", b: "" },
+    { label: "T&C language is complex", a: "LLM interprets dense legal text; retrieval grounds it in the source", b: "" },
+    { label: "Documents update periodically", a: "Corpus can be re-indexed without retraining the model", b: "" },
+    { label: "Can't hallucinate reward rates", a: "Retrieval-first architecture prevents ungrounded claims", b: "" }
+  ]}
+/>
+
+---
+
+## Use Cases
+
+Use cases are sequenced by frequency of need and risk of getting wrong. Negative cases are zero-tolerance from day one and not a later phase.
+
+### P0 - Category Optimization
+
+**As a** salaried employee with multiple cards across different banks, **I want** to know which card gives the best return on a specific spend category, **so that** I stop using cards interchangeably and actually maximize rewards.
+
+<CalloutBox type="insight">
+**Happy path:** "Which of my cards is best for dining?" → Retrieves reward chunks for dining from each MITC, normalizes to effective cashback %, returns a ranked answer with inline citations.
+
+**Edge case:** Cards use different reward units - "5X reward points" vs "2% cashback." System normalizes to a common unit before ranking. Incompatible figures are never presented side by side.
+</CalloutBox>
+
+### P0 - Benefit Discovery
+
+**As a** salaried employee unsure of what my cards actually offer, **I want** to ask plain-language questions about my existing card benefits, **so that** I stop missing entitlements I am already paying an annual fee for.
+
+<CalloutBox type="insight">
+**Happy path:** "Do I get lounge access with my HDFC Millennia?" → Retrieves the lounge access section, returns a direct yes/no with entitlement details and conditions cited.
+
+**Edge case:** Benefit is conditional - "yes, but only if you spend ₹1L in the previous quarter." The system surfaces the condition alongside the benefit. It never returns just the headline.
+</CalloutBox>
+
+### P1 - Cross-Card Comparison
+
+**As a** salaried employee with cards across 3 banks, **I want** a side-by-side comparison of my cards for a specific use case, **so that** I make an informed decision instead of guessing at the point of purchase.
+
+<CalloutBox type="insight">
+**Happy path:** "Compare Regalia vs Axis Atlas for international travel." → Parallel retrieval for both cards surfaces forex markup, lounge access, and travel rewards from each MITC in a structured comparison.
+
+**Edge case:** One card is not in the corpus. System presents what it has, explicitly flags the missing card. Incomplete data is never compared silently.
+</CalloutBox>
+
+### Zero Tolerance - Account Data Queries
+
+**As a** user, I should **NOT** get answers about my credit limit, balance, credit score, or transaction history, **so that** the product never creates the impression it has access to my bank account.
+
+<CalloutBox type="problem">
+**Response:** "CardSense only answers questions based on official card documents and does not have access to your account. Please contact your bank directly."
+</CalloutBox>
+
+### Zero Tolerance - Financial Advice & Eligibility Queries
+
+**As a** user, I should **NOT** receive personalized financial advice ("should I close this card," "will I get approved for Diners Black"), **so that** the product never enters regulated advisory territory.
+
+<CalloutBox type="problem">
+**Response:** The system presents what the MITC says about eligibility, then frames the decision back: "Here is what the official document says. The decision of whether to apply is yours to make."
+</CalloutBox>
+
+---
+
+## Technical Architecture
+
+Every component is chosen for the specific constraints of MITC documents - dense tables, image-rendered fee grids, conditional clauses that span multiple chunks.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Card Sense/cardsense architecture.jpg", alt: "Card Sense RAG pipeline architecture diagram", caption: "End-to-end pipeline: ingestion → chunking → embedding → hybrid retrieval → rerank → generation" }
+]} />
+
+**Data sources & ingestion.** MITC PDFs from multiple banks (HDFC, Axis, SBI, ICICI), 30–50 pages each, covering fee schedules, reward structures, eligibility clauses, and benefit tables. Manually downloaded from official bank websites, versioned and date-stamped at ingestion. Reward rate tables and fee grids are frequently image-rendered in Indian bank PDFs, so AWS Textract's table extraction API preserves row-column structure.
+
+### Chunking Strategy
+
+<ComparisonTable
+  headers={["Content type", "Strategy", "Chunk size"]}
+  rows={[
+    { label: "Prose clauses (T&C, definitions)", a: "Fixed-size", b: "512 tokens, 50 overlap" },
+    { label: "Short definitions & FAQs", a: "Sentence-level", b: "1–3 sentences" },
+    { label: "Tables (fee & reward)", a: "Table-aware", b: "Whole table as one chunk" }
+  ]}
+/>
+
+Splitting a table mid-row destroys meaning, so fee and reward tables are always treated as atomic units (Textract's table API runs at roughly ₹0.60/document extra).
+
+### Embedding & LLM Choice
+
+<ComparisonTable
+  headers={["Component", "Choice"]}
+  rows={[
+    { label: "Embedding", a: "text-embedding-3-small", b: "Strong on financial/legal text at one-fifth the cost of text-embedding-3-large" },
+    { label: "Retrieval", a: "Hybrid semantic + BM25", b: "Reward rates are exact-match queries; BM25 handles keyword precision, semantic handles intent. Weighted 70/30 in v1, tunable" },
+    { label: "Reranker", a: "Cohere Rerank", b: "Cross-encoder scores true answer relevance - critical when multiple cards share similar reward structures" },
+    { label: "LLM (simple)", a: "GPT-4.1 Nano", b: "Handles 60% of queries: fee lookups, yes/no benefits, exact-match rates" },
+    { label: "LLM (complex)", a: "GPT-5.4", b: "Handles 40% of queries: multi-card comparison, milestone synthesis, reward normalization" }
+  ]}
+/>
+
+### Context Window Budget
+
+<StatGrid items={[
+  { value: "~500", label: "System prompt tokens" },
+  { value: "~2,560", label: <>Retrieved chunks<br />(5 × 512)</> },
+  { value: "~400", label: <>Conversation history<br />(2 turns)</> },
+  { value: "~4,510", label: "Total budget per query" }
+]} />
+
+### Observability Plan
+
+<ComparisonTable
+  headers={["Layer", "What is logged"]}
+  rows={[
+    { label: "Query", a: "Raw query, timestamp, session ID", b: "Datadog" },
+    { label: "Retrieval", a: "Top-K chunk IDs, similarity scores, reranker scores, metadata filters", b: "Arize AI" },
+    { label: "Generation", a: "Final prompt, token count, response, latency", b: "Datadog" },
+    { label: "Response", a: "Citation accuracy flag, user feedback", b: "Arize AI" },
+    { label: "Alerts", a: "Low retrieval score, empty chunk returns, LLM timeout", b: "Sentry" }
+  ]}
+/>
+
+---
+
+## RAG Failure Analysis
+
+<CalloutBox type="note">
+Access control is not a failure point for Card Sense. The entire corpus is publicly available in MITC documents published under RBI's mandatory disclosure requirements. Card Sense holds no user-specific financial data, no account access, no transaction history, no personal information beyond what the user self-discloses in chat.
+</CalloutBox>
+
+<ComparisonTable
+  headers={["Failure layer", "Mitigation"]}
+  rows={[
+    { label: "Data quality / OCR", a: "Remove repeated headers before chunking", b: "Use structured table extraction; validate OCR quality before ingestion" },
+    { label: "Chunking strategy", a: "Semantic chunking with clause-boundary preservation", b: "Treat tables as atomic units; increase chunk overlap" },
+    { label: "Embedding quality", a: "Query expansion using domain synonyms", b: "Handles mismatches like \"milestone\" vs \"spend threshold\"" },
+    { label: "Search / retrieval", a: "Dynamic top-K (higher for comparisons)", b: "Card-aware retrieval ensures per-card coverage" },
+    { label: "Re-ranking", a: "Enforce per-card result quota", b: "Apply recency-based score penalty" },
+    { label: "Prompt / augmentation", a: "Prioritize most relevant chunk in prompt", b: "Enforce strict grounding - no unsupported synthesis" },
+    { label: "Model usage", a: "Two-tier model routing", b: "Simple vs complex queries routed to different models" },
+    { label: "Data drift", a: "Monthly refresh with change detection", b: "Parallel re-ingestion with validation" },
+    { label: "User behavior", a: "Clarification prompts for short queries", b: "Question extraction for long queries" }
+  ]}
+/>
+
+---
+
+## Guardrails & Escalation
+
+Low retrieval confidence doesn't produce a hedged answer. It produces a hard stop and a direct link to the source. CardSense never compares incomplete data silently or serves stale documents without warning.
+
+<ComparisonTable
+  headers={["Trigger", "Response"]}
+  rows={[
+    { label: "Retrieval confidence < 0.55", a: "No answer attempted. Direct link to the relevant bank's MITC page.", b: "" },
+    { label: "Out-of-scope query", a: "Matter-of-fact rejection. Bank customer care link appended.", b: "" },
+    { label: "Conflicting document versions", a: "Both versions surfaced with dates. Conflict flagged explicitly.", b: "" },
+    { label: "Citation older than 180 days", a: "Staleness warning renders in amber on every citation tag.", b: "" }
+  ]}
+/>
+
+<QuoteCard
+  quote="CardSense answers are based on official MITC documents. Benefits may have changed. Always verify with your bank before making a financial decision."
+  author="Persistent footer"
+  role="Shown on every response"
+/>
+
+### Source Citation Format
+
+Every factual claim is cited inline: card name, document section, and document date are always shown. Citations are expandable to reveal the exact retrieved chunk. Example: "HDFC Regalia charges a 2% forex markup [HDFC Regalia MITC · Fees & Charges · Jan 2025], while Axis Atlas charges 2% as well [Axis Atlas MITC · Foreign Currency Transactions · Nov 2024]."
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Card Sense/inline citation.jpg", alt: "Category optimization chat flow", caption: "Citations expand to show the exact retrieved chunk, with a staleness warning past 180 days" }
+]} />
+
+---
+
+## Success Metrics
+ 
+<ComparisonTable
+  headers={["Retrieval Quality", "Target"]}
+  rows={[
+    { label: "Precision@5", a: "≥80%" },
+    { label: "Recall@5", a: "≥70%" },
+    { label: "Mean Reciprocal Rank", a: "≥0.75" },
+    { label: "Card coverage rate", a: "100%" }
+  ]}
+/>
+ 
+<ComparisonTable
+  headers={["Generation Quality", "Target"]}
+  rows={[
+    { label: "Faithfulness", a: "≥95%" },
+    { label: "Answer relevance (1–5)", a: "≥4.0" },
+    { label: "Citation accuracy", a: "≥90%" },
+    { label: "Hallucination rate", a: "≤5%" }
+  ]}
+/>
+ 
+<ComparisonTable
+  headers={["Business Metrics", "Target"]}
+  rows={[
+    { label: "Session completion rate", a: "≥75%" },
+    { label: "Query resolution rate", a: "≥70%" },
+    { label: "Time-to-answer (p50)", a: "≤4s" },
+    { label: "User satisfaction (thumbs up)", a: "≥80%" },
+    { label: "D7 retention", a: "≥30%" },
+    { label: "Escalation rate", a: "≤15%" }
+  ]}
+/>
+
+<CalloutBox type="problem" title="Zero-tolerance policy violations">
+Out-of-scope responses (credit score, loans, eligibility) 0%, fabricated card information 0%, hallucinated reward rate 0%, stale data served without warning ≤1%.
+</CalloutBox>
+
+### Evaluation Method
+
+LLM-as-a-Judge runs on 100% of responses in staging and 10% in production, scoring faithfulness, relevance, and citation accuracy with structured JSON output. A weekly human audit covers the 20 lowest-rated responses and a random 20 high-confidence retrievals, involving credit card experts and Card Sense users. The combination provides scale from automation and ground-truth from human review.
+
+---
+
+## Token Economics & Cost
+
+Two-tier model routing is a deliberate cost architecture. Simple lookups - 60% of all queries - go to GPT-4.1 Nano at ₹0.13 per query. Only complex synthesis goes to GPT-5.4.
+
+<ComparisonTable
+  headers={["Path", "Cost per query", "Use case"]}
+  rows={[
+    { label: "Simple (60%) - GPT-4.1 Nano", a: "~$0.0016 (₹0.13)", b: "Fee lookups, yes/no benefits, exact-match rates" },
+    { label: "Complex (40%) - GPT-5.4", a: "~$0.027 (₹2.29)", b: "Multi-card comparison, milestone synthesis, reward normalization" }
+  ]}
+/>
+
+### Cost Per User Per Month (Blended)
+
+<ComparisonTable
+  headers={["User type", "Queries/mo", "Blended cost"]}
+  rows={[
+    { label: "Casual", a: "6", b: "₹5.96" },
+    { label: "Regular", a: "25", b: "₹24.85" },
+    { label: "Power", a: "80", b: "₹79.52" }
+  ]}
+/>
+
+---
+
+## Pricing Model
+
+The free tier is an acquisition cost, sized to demonstrate value without covering infrastructure. Standard margin of ~₹74/month leaves room for customer support and iteration.
+
+<ComparisonTable
+  headers={["Tier", "Price/month", "Query limit"]}
+  rows={[
+    { label: "Free", a: "₹0", b: "15 queries - acquisition cost" },
+    { label: "Standard", a: "₹99", b: "100 queries - ~₹74 margin" },
+    { label: "Pro", a: "₹249", b: "Unlimited - ~₹170 margin at avg usage" }
+  ]}
+/>
+
+---
+
+## UX & Feedback Loop
+
+Chat interface was chosen because queries are conversational and multi-part, follow-up questions flow naturally without re-entering context, and inline citation design works natively in chat.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Card Sense/card comparison.jpg", alt: "Cross Card Comparison", caption: "Cross Card Comparison" }
+]} />
+
+
+### Feedback Mechanism
+
+Thumbs up signals high retrieval accuracy and correct synthesis. Thumbs down opens a mandatory 3-option reason picker: **Wrong Information** (factually incorrect), **Incomplete** (missing key details, e.g. forgot to mention the cap), or **Misunderstood** (failed to interpret intent).
+<ImageGallery images={[
+  { src: "/images/assets/work/Card Sense/Feedback.jpg", alt: "Feedback" }
+]} />
+
+When thumbs-down feedback clusters, the system triggers specific reviews:
+
+<InsightCards items={[
+  { title: "By specific card", description: "Negative feedback spike on one card flags that MITC PDF for re-ingestion review - checks for outdated data or parsing errors." },
+  { title: "By simple queries", description: "Short questions failing triggers a clarification threshold adjustment to improve the retriever's confidence scores." },
+  { title: "By comparisons", description: "Complex queries failing initiates a card coverage metric review to check for missing cross-bank context." }
+]} />
+
+---
+
+## Launch Phases
+
+<ComparisonTable
+  headers={["Phase", "Scope", "Exit criteria"]}
+  rows={[
+    { label: "Alpha (Weeks 1–4)", a: "4 banks, 20–30 invited users, all responses manually reviewed", b: "Hallucination < 5%, Precision@5 ≥ 75%, zero policy violations" },
+    { label: "Beta (Weeks 5–10)", a: "6 banks, 200–500 waitlist users, LLM-as-a-Judge on 100% of responses", b: "Session completion ≥ 70%, satisfaction ≥ 75%, escalation ≤ 20%, two-tier routing live" },
+    { label: "GA (Week 11+)", a: "Full corpus, freemium pricing active, full observability stack, monthly freshness pipeline", b: "D7 retention ≥ 30%, Standard conversion ≥ 10%, hallucination < 5%, query resolution ≥ 70%" }
+  ]}
+/>
+
+### Launch Risks
+
+<CalloutBox type="problem" title="Hallucinated reward rate goes viral">
+Zero-tolerance guardrail + LLM-as-a-Judge on all Alpha/Beta responses + inline citations make ungrounded claims immediately visible. Response protocol: public correction post with specific query, failure reason, and fix applied.
+</CalloutBox>
+
+<CalloutBox type="problem" title="Stale document serves wrong fee">
+Document date shown on every citation. Staleness warning at 180 days. Weekly re-ingestion in Beta catches this early.
+</CalloutBox>
+
+<CalloutBox type="problem" title="Scope creeps into financial advice">
+System prompt instructs the LLM to present information, not make recommendations. Framing hardcoded: "Here's what each card offers - the decision is yours."
+</CalloutBox>
+
+<CalloutBox type="problem" title="Users over-trust citations">
+Persistent footer on every response reminds users that benefits may have changed and to verify with their bank before making a financial decision.
+</CalloutBox>
+
+---
+
+## Future Scope: Fine-Tuning & Agentic RAG
+
+Two signals from production data would trigger a fine-tuning evaluation: persistent retrieval misses on Indian fintech terminology ("milestone benefit," "forex markup waiver") despite query expansion, and consistent reward unit normalization errors across banks. Both are repeatable domain-specific tasks where a fine-tuned model outperforms prompt engineering at scale.
+
+**Approach:** A hybrid RAG architecture using PEFT/LoRA to fine-tune a Mistral 7B or Llama 3 8B model, trained on a distillation dataset of GPT-5's high-benchmark responses and 500 synthetic Card Sense queries, to handle the high-volume "Simple Query" tier. Hosting the fine-tuned adapter on Together AI achieves sub-second latency and cost reduction, leaving GPT-5.4 to focus exclusively on complex, multi-card synthesis.
+
+### Agentic RAG Roadmap
+
+<ComparisonTable
+  headers={["Version", "Capability"]}
+  rows={[
+    { label: "V2", a: "Live document fetching", b: "Agent scrapes official bank URLs on query, detects MITC changes via file hash, triggers re-ingestion automatically - eliminates data drift entirely" },
+    { label: "V3", a: "Personal spend context", b: "With user consent via RBI's Account Aggregator framework, recommendations become genuinely personalized to actual spend pattern" },
+    { label: "V4", a: "Action layer", b: "Agent initiates card applications, sets spend alerts, schedules reward redemptions - enters regulated territory, legal review required before scoping" }
+  ]}
+/>

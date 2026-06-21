@@ -1,213 +1,417 @@
 ## Overview
 
-Smallcase simplifies investing through expert-curated portfolios. While analyzing the product and its investment journeys, I noticed a recurring challenge: users had access to numerous investment options but limited support in deciding which smallcase was right for them.
-
-To explore this problem, I conducted product analysis, user interviews, and survey-based research. The findings consistently pointed toward decision paralysis caused by choice overload and low investment confidence.
-
-The outcome was the **Guided Entry System** — a personalized onboarding and recommendation experience designed to help new and passive investors discover relevant smallcases with greater confidence.
+This case study walks through a full product cycle on smallcase: a UX teardown of existing flows, reverse-engineering what makes its core features work, user segmentation, interviews and survey validation, a SWOT analysis, and finally a prioritized, wireframed solution aimed at one problem.
 
 ---
 
-## Problem
+## About smallcase
 
-<CalloutBox type="problem">
-  New and passive investors struggle to confidently choose where to invest due to too many options and lack of clear guidance, leading to delayed or avoided investment decisions.
-</CalloutBox>
+smallcase exists to introduce a new generation of investors to the Indian equity markets using technology. It monetizes through transaction fees on investments and SIPs, premium subscription plans, and commissions via broker partnerships for trades executed through its platform.
 
-While Smallcase reduces the effort required to build and manage portfolios, discovering the right portfolio remains a decision-heavy process.
+For users, smallcase simplifies investing by reducing cognitive effort and making portfolio decisions easier and more guided. For the business, this translates into higher transaction frequency and subscription adoption, driving retention and revenue.
 
-During product analysis, I identified multiple opportunity areas, including funding friction during investments, portfolio optimization recommendations, and investment discovery. Research showed that investment selection was the most impactful problem to solve because users often stalled before making their first investment.
-
----
-
-## Research
-
-### Product Analysis
-
-Analyzed key user journeys including investing, adding funds, and portfolio management.
-
-Reverse-engineered core Smallcase features to understand how the platform currently supports investor decision-making.
-
-### User Interviews
-
-Conducted 3 interviews with early-career professionals across different investing backgrounds.
-
-Participants included SIP investors, stock investors, and crypto-first investors.
-
-### Survey Validation
-
-Collected <a href="https://drive.google.com/file/d/1agvQkYdBGQSY0BWjM_FKd6yFj1vJHXsp/view" target="_blank" rel="noopener noreferrer">13 responses</a> to validate whether interview patterns extended beyond a small sample size.
-
-The survey focused on investing behaviour, confidence levels, decision-making patterns, and research preferences.
-
-<QuoteCard
-quote="I stopped investing because I didn’t feel confident making decisions on my own once my brother got busy."
-author="Interview Participant"
-role="Early-career investor"
+<ComparisonTable
+  headers={["Competitor", "Their Approach", "Smallcase's edge"]}
+  rows={[
+    { label: "WealthDesk", a: "Curated WealthBaskets of stocks and ETFs from SEBI-registered advisors via broker apps.", b: "A broader marketplace of thematic portfolios and a unified investing experience." },
+    { label: "Cube Wealth", a: "Personalized portfolios and one-on-one advisory for busy professionals.", b: "Ready-made thematic portfolios for self-directed investors, without direct advisor involvement." },
+    { label: "5Paisa (Cirrus)", a: "Model portfolios and advisory tools within a full-featured trading platform.", b: "Purely focused on thematic investing across brokers, avoiding broader trading features." },
+  ]}
 />
 
 ---
 
-## Key Insights
+## Product Teardown: Flows & Frictions
 
-<StatGrid items={[
-{ value: "92.3%", label: "Delayed investing due to uncertainty" },
-{ value: "76.9%", label: "Said too many options feel stressful" },
-{ value: "75%", label: "Rely on friends or family for guidance" },
-{ value: "66.7%", label: "Want less research involved in investing" }
-]} />
+Before identifying a problem to solve, I mapped three core money-movement flows in the existing product end-to-end - what works, and where users hit friction.
 
-<CalloutBox type="insight">
-  The biggest barrier wasn't willingness to invest—it was confidence in choosing where to invest.
+### Invest More
+
+Flow: Existing smallcase → Invest more → Make Payment → Order placed.
+
+<CalloutBox type="insight" title="What works">
+The transaction flow is smooth when sufficient funds already exist on the broker platform (e.g. Zerodha Kite).
 </CalloutBox>
 
-### Guidance is often external
+<CalloutBox type="problem" title="Friction">
+Each order requires a minimum balance, but if funds are insufficient on Kite, the user is only notified at the final payment step. After entering an investment amount and clicking "Invest more," the flow redirects to the Kite payment page with no minimum-amount constraint or prefilled value - letting users enter less than required and breaking the flow again.
+</CalloutBox>
 
-Many participants relied on family members, friends, or trusted individuals when making investment decisions.
+### Add Funds
 
-### Users prefer low-effort investing
+Flow: Profile → Account management → See available funds → Add Funds (CTA) → Redirect to broker.
 
-Most participants wanted investing approaches that required minimal research, monitoring, and active management.
+<CalloutBox type="insight" title="What works">
+Users can view available funds within smallcase and access the broker's add-funds page via a CTA.
+</CalloutBox>
 
-### Choice overload delays action
+<CalloutBox type="problem" title="Friction">
+Users can't add funds directly from smallcase. Clicking "Add Funds" redirects to the broker's web interface even if the broker app is installed, breaking app continuity.
+</CalloutBox>
 
-Users were interested in investing but often postponed decisions because they didn't know how to evaluate available options.
+### Rebalance
 
-### Confidence drives activation
+Flow: smallcase → Rebalance → Redirected → Modify or approve → Order placed.
 
-When trusted guidance was unavailable, investment activity frequently slowed down or stopped altogether.
+<CalloutBox type="insight" title="What works">
+A clear breakdown of buy and sell actions, with flexibility to customize before rebalancing.
+</CalloutBox>
+
+<CalloutBox type="problem" title="Friction">
+Users are redirected to an external link to complete the rebalance, disrupting the in-app experience.
+</CalloutBox>
 
 ---
 
-## Solution
+## Feature Reverse Engineering
 
-<CalloutBox type="note">
-  The Guided Entry System helps users discover relevant smallcases through a structured onboarding flow and personalized recommendations.
+I reverse-engineered three existing smallcase features to understand the user problem each was designed to solve, and why it works for both sides of the marketplace.
+
+<InsightCards
+  items={[
+    {
+      title: "Expert-Curated Portfolios",
+      description: "Ready-made smallcases built by experts around themes, goals, or sectors instead of analyzing individual stocks.",
+    },
+    {
+      title: "One-Tap Rebalancing",
+      description: "Notifies users when it's time to rebalance, then executes all buy/sell actions via the broker in one tap.",
+    },
+    {
+      title: "Investment Score & Portfolio Breakdown",
+      description: "Breaks holdings into stable, steady, and high-growth categories to guide rebalancing decisions.",
+    },
+  ]}
+/>
+
+<CalloutBox type="insight" title="Why these work">
+Each feature solves a specific anxiety: not knowing where to invest, not wanting to track markets, and not understanding portfolio risk. For users, this means less research and more confidence. For smallcase, it drives engagement, subscriptions, and repeat investments.
 </CalloutBox>
 
-Multiple concepts were explored, including referrals, ratings & reviews, social proof, and curated beginner picks. Guided onboarding was selected because it directly addressed the strongest research signals: choice overload, decision anxiety, and dependence on external guidance.
+---
 
-Instead of immediately exposing users to a large catalogue of investment options, the experience collects a small set of inputs and generates a focused shortlist of relevant smallcases.
+## User Segmentation
 
-The objective is to transform investment discovery from an open-ended browsing exercise into a guided decision-making experience.
+I segmented smallcase's user base into six groups to identify where the sharpest, most addressable problem lived.
 
-### How It Works
+<ComparisonTable
+  headers={["Segment", "Need", "Hypothesized Problem"]}
+  rows={[
+    { label: (<>Passive Investors <br /><br /><span style={{ fontWeight: 300 }}>(Long-term Holders, SIP Investors)</span></>), a: "A quick way to track all ongoing SIPs in one place.", b: "SIP status is scattered across individual smallcases, so users must open each one to confirm whether an SIP is active." },
+    { label: (<>Active Investors <br /><br /><span style={{ fontWeight: 300 }}>(Portfolio Optimizers, Market Movers)</span></>), a: "Portfolio suggestions that adapt to their changing risk appetite.", b: "Current suggestions use a fixed composition of stable, steady, and high-growth smallcases, making recommendations irrelevant to individual risk profiles." },
+    { label: (<>Occasional Investors <br /><br /><span style={{ fontWeight: 300 }}>(Bonus-time, Event-driven)</span></>), a: "A smooth one-time investment flow without last-minute blockers.", b: "Users often realize at the final order step that they don't have enough broker funds, forcing them to add money separately and restart the process." },
+    { label: (<>Learners / First-timers <br /><br /><span style={{ fontWeight: 300 }}>(New Explorers, Trial Investors)</span></>), a: "Guidance to start investing without feeling overwhelmed by too many choices.", b: "The large number of smallcases (including free ones) makes it difficult for beginners to confidently pick their first or second investment." },
+    { label: (<>Delegated Investors <br /><br /><span style={{ fontWeight: 300 }}>(Expert Followers, Advisor-led)</span></>), a: "-", b: "-" },
+    { label: (<>Institutional / Partner Users <br /><br /><span style={{ fontWeight: 300 }}>(Wealth Advisors, Platform Partners)</span></>), a: "-", b: "-" },
+  ]}
+/>
 
-<ImageGallery images={[
-{
-src: "/images/assets/work/Smallcase - Guided Entry System/Homepage.jpeg",
-alt: "Homepage Entry Point",
-caption: "The Guided Entry System is introduced through a dedicated entry point designed to help users start investing with greater confidence instead of browsing through numerous investment options."
-}
+---
+
+## Initial Problem Hypotheses
+
+From the teardown and segmentation, I drafted three early problem hypotheses, prioritized by gut confidence ahead of user validation.
+
+<CalloutBox type="note" title="P1 (Medium Confidence)">
+Event-driven Investors struggle to complete time-sensitive orders when they discover insufficient broker funds at the final step, because there's no early prompt to check or add funds - leading to frustration, delays, and missed opportunities.
+</CalloutBox>
+
+<CalloutBox type="note" title="P2 (High Confidence)">
+New Explorers struggle with choosing their first investment when faced with a wide range of smallcases, because there's limited guided discovery or filtering based on user goals - leading to decision fatigue and drop-off before investing.
+</CalloutBox>
+
+<CalloutBox type="note" title="P3 (Medium Confidence)">
+Portfolio Optimizers struggle to align their portfolios with their risk appetite when making changes, because the platform suggests adjustments based on a generic benchmark rather than their current profile - leading to irrelevant advice.
+</CalloutBox>
+
+---
+
+## User Research
+
+### Interviews
+
+I interviewed 3 early-career professionals (~20–25 minutes each), spanning SIP investors, a stock investor, and a crypto-first investor, to validate the P2 hypothesis.
+
+<InsightCards
+  items={[
+    {
+      title: "Key Behaviour Patterns",
+      description: (
+        <>
+          Started investing after first salary.<br /><br />
+          Prefer low-effort, long-term investing (SIPs, set and forget).<br /><br />
+          Track portfolios lightly, mostly just total value/profit.
+        </>
+      ),
+    },
+    {
+      title: "Decision-Making Patterns",
+      description: (
+        <>
+          Low confidence choosing independently.<br /><br />
+          Strong reliance on family/friends for guidance and activity slows or stops if guidance disappears.
+        </>
+      ),
+    },
+    {
+      title: "Unexpected Insights",
+      description: (
+        <>
+          One stopped investing after losing access to guidance, another delayed starting for over a year.<br /><br />
+          Delegation to trusted people is a behaviour, not just a preference.
+        </>
+      ),
+    },
+  ]}
+/>
+
+**Pain signals from real experiences:**
+
+- "I rely on my brother for most investment decisions."
+- "I want to invest and forget about it."
+- "I don't know where to start with SIPs."
+- "There's too much information online."
+
+### Survey Validation
+
+To check whether these patterns held beyond 3 interviews, I ran a short survey with 13 responses, mostly SIP users, after the interviews.
+
+<StatGrid
+  items={[
+    { value: "69.2%", label: "invest regularly via SIPs" },
+    { value: "92.3%", label: "delayed/avoided investing due to uncertainty" },
+    { value: "75%", label: "follow suggestions from friends/family" },
+    { value: "66.7%", label: "want less research involved" },
+    { value: "76.9%", label: "say \"too many options\" feels stressful" },
+    { value: "84.6%", label: "check only total value/profit" },
+  ]}
+/>
+
+Together, this confirmed the interview patterns: investors prefer low-effort approaches, decision confidence is moderate to low, and confusion plus choice overload slow down action. Guidance and simplicity are strongly desired.
+
+---
+
+## SWOT Analysis
+
+Built from the interviews, survey, product teardown, and comparative observation of platforms like mutual fund apps, broker platforms, and SIP-first solutions. Since most participants weren't existing smallcase users, this reflects external user behaviour and market positioning rather than internal usage data.
+
+<QuadrantGrid items={[
+  { title: "STRENGTHS", content: "Strong fit with guidance-seeking behaviour (75% follow friend/family suggestions). Positioned between DIY stocks and SIPs - more control than SIPs, less effort than stock picking. Aligns with the low-effort investing mindset (84% just check profit/value)." },
+  { title: "WEAKNESSES", content: "Low awareness among passive investors - a discovery gap in the SIP-first audience. Heavy dependence on human advice; users trust people more than platforms. Confidence gap creates hesitation - only 7.7% feel very confident." },
+  { title: "OPPORTUNITIES", content: "Huge demand for guidance (75% want simple guidance). Confusion-driven delay is widespread - the biggest barrier is decision overload, not lack of interest. Passive investors want simplicity, signaling the market is primed for low-effort experiences." },
+  { title: "THREATS", content: "SIPs dominate passive investor comfort, representing strong habit and trust in mutual funds. Inaction is a major competitor - people pause instead of switching platforms. Trust lies with known people, meaning human networks compete directly with platforms." },
 ]} />
 
-<ImageGallery images={[
-{
-src: "/images/assets/work/Smallcase - Guided Entry System/Quiz steps.jpeg",
-alt: "Guided Questionnaire",
-caption: "A short onboarding flow captures the user's investment goal, time horizon, risk appetite, investment capacity, and involvement preference to build an investor profile."
-}
-]} />
+---
+
+## Problem Statement & Goal
+
+<CalloutBox type="problem" title="P0 Problem Statement">
+New and passive investors struggle to confidently choose where to invest due to too many options and lack of clear guidance, leading to delayed or avoided investment decisions.
+</CalloutBox>
+
+<StatGrid
+  items={[
+    { value: "92.3%", label: "delayed investing due to uncertainty" },
+    { value: "76.9%", label: "say too many options feel stressful" },
+    { value: "75%", label: "rely on friends or family for guidance" },
+  ]}
+/>
+
+Resulting behaviour: users delay starting investments, depend on trusted people for decisions, and avoid trying new platforms without clear direction. Interviews showed users paused investing entirely when guidance was unavailable.
+
+This hesitation directly reduces Activation as users discover investment options but don't take the first investment action due to decision uncertainty.
+
+<CalloutBox type="insight" title="Primary Goal">
+Improve activation rate by ~15% in the next 6 months for new/passive investors by reducing decision confusion at the investment selection stage.
+</CalloutBox>
+
+---
+
+## Personas
+
+### Priya Gupta - Passive SIP Investor (family-managed)
+
+*Mid-20s, UX Designer. Decision style: trust-based, but curious to learn.*
+
+**Goals:** Grow money safely over the long term, avoid wrong decisions, learn investing gradually without spending too much time.
+
+**Behaviours:** SIP investments managed by an uncle/family member; rarely decides independently; checks portfolio occasionally (mainly total value/profit); shows interest in learning but doesn't actively research.
+
+**Frustrations:** Too many investment options feel overwhelming; research feels time-consuming and confusing; low confidence choosing investments independently.
+
+> "I just want to invest and forget, but I also want to understand what's happening."
+
+### Deep Patel - Early-Stage Investor (started but paused)
+
+*Early-20s, UX Designer and Developer. Decision style: relies on trusted family guidance.*
+
+**Goals:** Invest early and grow money over time, in a way that feels safe and guided, without needing constant involvement.
+
+**Behaviours:** Started investing after his first salary; followed his brother's guidance for stock selection; stopped investing once that guidance became less available; watches YouTube content but rarely acts on it independently.
+
+**Frustrations:** Fear of losing money on wrong decisions; feels investing requires constant research and market tracking; unsure if current investments will grow meaningfully; feels stuck between continuing, switching, or withdrawing.
+
+> "I stopped investing because I didn't feel confident making decisions on my own once my brother got busy."
+
+---
+
+## Problem Prioritization
+
+Considered problems from interviews, survey, and the SWOT: confusion about where to invest, low confidence in decisions, dependency on trusted people for guidance, and research feeling heavy and time-consuming. All four contribute to hesitation in starting investments.
+
+<CalloutBox type="problem" title="P0 Problem Statement">
+New and passive investors struggle to confidently choose where to invest due to too many options and lack of clear guidance, leading to delayed or avoided investment decisions.
+</CalloutBox>
+
+---
+
+## Solution Brainstorming
+
+Ten candidate solutions were generated against the P0 statement and categorized by build effort.
+
+<ComparisonTable
+  headers={["Solution", "Description", "Key Assumption"]}
+  rows={[
+    { label: "Smallcase-Specific Referrals", a: "Allow existing investors to refer a specific smallcase (not the platform generically) to friends/family.", b: "Users trust choices recommended by people they know." },
+    { label: "Contextual Personalized Suggestions", a: "Collect user inputs (goals, risk appetite, capacity) and recommend best-fit smallcases with a guided roadmap.", b: "Personalized guidance reduces confusion and speeds decisions." },
+    { label: "Ratings & Reviews for Smallcases", a: "Let existing investors rate and review a smallcase.", b: "Validation builds confidence and cuts hesitation." },
+    { label: "Reduce Visible Choices (Curated Top Picks)", a: "Show only a limited Top 3–5 smallcases for new users to prevent overwhelm.", b: "Fewer options limit decision fatigue and spur action." },
+    { label: "Explain \"Why This is Recommended\"", a: "Show simple reasoning per recommendation (e.g. fits long-term goal + medium risk + low involvement).", b: "Transparency increases trust and confidence." },
+    { label: "Re-activation Incentives", a: "Nudge paused users with small incentives (e.g. ₹100 off on next ₹5k investment).", b: "Small financial nudges trigger action among hesitant users." },
+    { label: "Similar-Profile Social Proof", a: "Show \"People like you invested in these smallcases\" based on age, risk profile, etc.", b: "Users trust decisions made by similar peers." },
+    { label: "Smart Onboarding Quiz (Top 3 Fit)", a: "Quick onboarding quiz mapping users to best-fit smallcases.", b: "Guided entry with limited options reduces confusion." },
+    { label: "\"Most Invested This Month\" Section", a: "Highlight trending smallcases based on recent investment activity.", b: "Users rely on crowd behavior as a decision shortcut." },
+    { label: "\"Top Beginner Picks\" Section", a: "Dedicated entry point featuring beginner-friendly smallcases that historically worked well.", b: "New investors prefer starting with proven, low-risk options." },
+  ]}
+/>
+
+### RICE Prioritization
+
+<ComparisonTable
+  headers={["Solution", "RICE Breakdown"]}
+  rows={[
+    {
+      label: "Smallcase-Specific Referrals",
+      a: (
+        <>
+          Reach 2 · Impact 3 · Confidence 2 · Effort 2<br /><br />
+          Score: 6
+        </>
+      ),
+    },
+    {
+      label: "Guided Entry System (Quiz + Suggestions + Why Recommended)",
+      a: (
+        <>
+          Reach 3 · Impact 3 · Confidence 3 · Effort 3<br /><br />
+          Score: 9
+        </>
+      ),
+    },
+  ]}
+/>
+
+The Guided Entry System scored highest on RICE and became the P0 solution.
+
+---
+
+## P0 Solution: The Guided Entry System
+
+The Guided Entry System introduces a structured onboarding flow that collects user goals, risk appetite, investment capacity, and involvement preference. Based on this, users receive a curated roadmap of best-fit smallcases along with contextual explanations.
+
+This directly reduces:
+
+- Choice overload
+- Decision anxiety
+- Reliance on external guidance
+
+### Entry Trigger
+
+Location: shown on first sign-in, or as a Home banner - "Invest with direction." CTA: "Build my roadmap."
+
+This ensures new users get guidance immediately, while existing passive users can re-enter decision support at any time.
 
 <ImageGallery images={[
-{
-src: "/images/assets/work/Smallcase - Guided Entry System/Curated list of smallcases.jpeg",
-alt: "Personalized Recommendations",
-caption: "Based on user inputs, the system generates a curated shortlist of relevant smallcases along with contextual explanations that help users understand why each recommendation is a good fit."
-}
+  {
+    src: "/images/assets/work/Smallcase - Guided Entry System/Homepage.jpeg",
+    alt: "Homepage Entry Point"
+  }
 ]} />
 
+### Flow Summary (5 Steps)
+
+A short onboarding flow captures the user's investment goal, time horizon, risk appetite, investment capacity, and involvement preference to build an investor profile.
+
+1. **Goal selection**: e.g. building long-term wealth, saving for a future goal, planning for retirement, or just exploring.
+2. **Time horizon**: within 1 year, 1–3 years, 3–7 years, or 7+ years.
+3. **Risk tolerance**: framed behaviorally around a 20% portfolio drop scenario (exit immediately, feel anxious but wait, stay calm and hold, or buy more on the dip).
+4. **Monthly capacity**: under ₹2,000, ₹2,000–₹5,000, ₹5,000–₹15,000, or ₹15,000+.
+5. **Involvement preference**: set it and forget it, occasional check-ins, or actively involved.
+
+<ImageGallery images={[
+  {
+    src: "/images/assets/work/Smallcase - Guided Entry System/Quiz steps.jpeg",
+    alt: "Guided Questionnaire"
+  }
+]} />
 
 ### Recommendation Layer
 
-Based on user inputs, the system generates a personalized roadmap of suitable smallcases.
+Each recommended smallcase surfaces:
 
-Each recommendation includes:
+- A fit explanation across goal match, risk match, and horizon match
+- A simplified summary
+- Minimum investment required
+- A performance snapshot
 
-* Goal fit
-* Risk fit
-* Investment horizon fit
-* Minimum investment requirement
-* Performance snapshot
+Based on user inputs, the system generates a curated shortlist of relevant smallcases along with contextual explanations that help users understand why each recommendation is a good fit.
 
-### Key Design Decision
+<ImageGallery images={[
+  {
+    src: "/images/assets/work/Smallcase - Guided Entry System/Curated list of smallcases.jpeg",
+    alt: "Personalized Recommendations"
+  }
+]} />
 
-**Why this is recommended for you**
+### How This Solves the P0
 
-Every recommendation includes contextual reasoning that explains how the recommendation aligns with the user's goals, risk profile, and investment horizon. This helps users understand recommendation logic rather than blindly trusting the system, increasing confidence and reducing reliance on external validation.
+Problem: users delay investing due to confusion and too many options.
+
+This solution narrows choices down to 3–8 contextual picks, explains the reasoning behind each, and makes the decision feel structured rather than overwhelming.
+
+**Expected behavioral shift:** from browsing endlessly, to selecting from a guided shortlist.
 
 ---
 
 ## Success Metrics
 
 <ComparisonTable
-headers={["Metric Type", "Metric", "Why it Matters"]}
-rows={[
-{
-label: "Primary",
-a: "First Investment Conversion Rate",
-b: "Measures whether guided recommendations help new and passive investors complete their first investment."
-},
-{
-label: "Secondary",
-a: "Quiz Completion Rate",
-b: "Indicates willingness to engage with the guided onboarding experience."
-},
-{
-label: "Secondary",
-a: "Recommendation Click-through Rate",
-b: "Measures relevance and attractiveness of personalized recommendations."
-},
-{
-label: "Secondary",
-a: "Investment Rate from Recommendations",
-b: "Validates whether recommendations successfully drive investment decisions."
-},
-{
-label: "Guardrail",
-a: "30-Day Retention",
-b: "Ensures activation improvements translate into sustained engagement."
-},
-{
-label: "Guardrail",
-a: "Quiz Drop-off Rate",
-b: "Monitors whether the onboarding flow introduces excessive friction."
-}
-]}
-/>
-
-## Risks & Mitigations
-
-<ComparisonTable
-headers={["Risk", "Mitigation", "Detection Signal"]}
-rows={[
-{
-label: "Quiz Avoidance",
-a: "Keep the flow short, communicate value clearly, and make guidance optional.",
-b: "Quiz start and completion rates."
-},
-{
-label: "Low Trust",
-a: "Explain recommendation logic and clearly show fit criteria.",
-b: "Investment rate from recommendations."
-},
-{
-label: "Poor Recommendation Quality",
-a: "Use behavioural questions, transparent risk explanations, and editable preferences.",
-b: "30-day retention."
-},
-{
-label: "Inaccurate User Inputs",
-a: "Reduce ambiguity through guided questions and profile confirmation.",
-b: "Completion-time anomalies and recommendation engagement."
-}
-]}
+  headers={["Type", "Metric", "Why It Matters"]}
+  rows={[
+    { label: "Key Metric", a: "First Investment Conversion Rate (New/Passive)", b: "Direct measure of activation improvement." },
+    { label: "Secondary", a: "Quiz Completion Rate", b: "Measures willingness to engage with structured guidance." },
+    { label: "Secondary", a: "Recommendation Click-through Rate", b: "Indicates relevance of suggestions." },
+    { label: "Secondary", a: "Investment Rate from Recommendations", b: "Validates personalization effectiveness." },
+    { label: "Guardrail", a: "30-Day Retention", b: "Ensures long-term quality, not forced activation." },
+    { label: "Guardrail", a: "Quiz Drop-off Rate", b: "Protects against friction overload." },
+  ]}
 />
 
 ---
 
-## Links
+## Pitfalls & Mitigations
 
-<a href="https://drive.google.com/file/d/1Rux9VbbO6qKsWEtI3YTa9RvYajwqx2RM/view" target="_blank" rel="noopener noreferrer">PPT</a> |
-<a href="https://drive.google.com/file/d/1-_T1cf6PLEubzh3zmFwzl5rm-qcGDvzZ/view" target="_blank" rel="noopener noreferrer">PRD</a> |
-<a href="https://drive.google.com/file/d/1su1ujgRaldkeaxDDGf_I3oGC2EdHopUq/view" target="_blank" rel="noopener noreferrer">Research Document</a>
+Key assumptions behind the Guided Entry System, mapped against their failure modes and mitigation plans.
+
+<ComparisonTable
+  headers={["Assumption at Risk", "Failure Mode", "Mitigation"]}
+  rows={[
+    { label: "Users engage with the quiz", a: "Users skip it (High impact / Medium likelihood)", b: "Short flow, clear value prop, contextual entry point." },
+    { label: "Users trust the recommendations", a: "Users don't invest after the quiz (High impact / High likelihood)", b: "Explain \"why recommended,\" show fit score." },
+    { label: "Logic gives relevant picks", a: "Users feel misaligned post-investment (High impact / Medium likelihood)", b: "Clear risk explanation, editable profile." },
+    { label: "Users answer honestly", a: "Random answers → poor fit (Medium impact / Medium likelihood)", b: "Behavioral questions, supportive microcopy." },
+  ]}
+/>
+
+Detection signals tracked per risk: quiz start and completion rate, investment rate from recommendations, 30-day churn, and completion-time anomalies.
