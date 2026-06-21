@@ -72,3 +72,29 @@
   padding-left: 20px;
   color: var(--color-text-muted);
 }
+
+@media (max-width: 560px) {
+  .callout {
+    grid-template-columns: 2px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 20px;
+    row-gap: 16px;
+  }
+
+  .callout::before {
+    grid-row: 1 / 3;
+    height: 24px;
+    align-self: stretch;
+  }
+
+  .icon {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 0;
+  }
+
+  .body {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}

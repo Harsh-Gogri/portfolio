@@ -32,7 +32,7 @@
 
 .label {
   font-family: var(--font-body);
-  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  font-size: clamp(0.9rem, 2vw, 0.95rem);
   color: var(--color-text);
   font-weight: 300;
   opacity: 0.8;
@@ -56,5 +56,6 @@
   .card {
     padding: 18px 16px;
     min-height: 120px;
+    border-radius: 16px;
   }
 }
