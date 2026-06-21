@@ -1,17 +1,17 @@
 export const projects = [
   {
-    id: "card-sense",
-    title: "Card-Sense",
-    company: "Credit Cards",
-    tags: ["Product"],
-    image: "/images/assets/work/Card Sense/CardSense.jpg",
-  },
-  {
     id: "smallcase-guided-entry",
     title: "Guided Entry System",
     company: "Smallcase",
     tags: ["Product"],
     image: "/images/assets/work/Smallcase - Guided Entry System/smallcase-guided-entry-system.avif",
+  },
+  {
+    id: "card-sense",
+    title: "Card-Sense",
+    company: "Credit Cards",
+    tags: ["Product"],
+    image: "/images/assets/work/Card Sense/CardSense.jpg",
   },
   {
     id: "upi-shield",
