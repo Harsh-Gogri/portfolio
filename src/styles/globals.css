@@ -3,7 +3,7 @@
   --font-heading: "Bricolage Grotesque", sans-serif;
   --font-body: var(--font-geist), var(--font-inter), sans-serif;
 
-  /* Colors */
+  /* Colors — Light Mode (default) */
   --color-bg: #F5F2F2;
   --color-bg-secondary: #ffffff;
   --color-text: #171616;
@@ -12,6 +12,9 @@
   --color-text-subtle: #9b9b9b;
   --color-border: #e0e0e0;
   --color-warning: #f59e0b;
+  --color-success: #468432;
+  --color-error: #D25353;
+  --color-icon: #41444B;
 
   /* Spacing */
   --spacing-xs: 8px;
@@ -19,6 +22,22 @@
   --spacing-md: 32px;
   --spacing-lg: 64px;
   --spacing-xl: 120px;
+}
+
+/* Dark Mode — same token names, alternate values.
+   Components reference tokens only and are unaware of which theme is active. */
+[data-theme="dark"] {
+  --color-bg: #111;
+  --color-bg-secondary: #080808;
+  --color-text: #fefefe;
+  --color-primary: #8fefdf;
+  --color-text-muted: #8c8c8c;
+  --color-text-subtle: #505050;
+  --color-border: #2e2b29;
+  --color-warning: #f59e0b;
+  --color-success: #72C65A;
+  --color-error: #F07B7B;
+  --color-icon: #F3EEE7;
 }
 
 /* Global baseline styles. */

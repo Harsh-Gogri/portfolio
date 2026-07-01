@@ -1,0 +1,362 @@
+## Overview
+
+A mobile-first AI app that lets Indian working professionals rehearse high-stakes workplace conversations - salary negotiations, pushback, feedback delivery - with a realistic AI persona before the real moment arrives.
+
+---
+
+## The Problem
+
+Indian working professionals regularly face career-defining conversations: salary negotiations, pushback to a manager, asking for a promotion, resolving peer conflict. Most people handle these moments poorly, not because they lack intelligence or intent, but because they have never practiced.
+
+The consequences compound silently - salaries accepted below market, credit lost to more assertive colleagues, promotions delayed by years.
+
+<InsightCards items={[
+  { title: "Practice gap, not knowledge gap", description: "People consume endless content on what to say. Only 2.5% of analyzed cases showed any active rehearsal before the real moment." },
+  { title: "No forcing function exists today", description: "LinkedIn Learning, books, and YouTube deliver frameworks. None deliver a feedback loop tied to a specific upcoming conversation." },
+  { title: "Coaches don't scale", description: "Real coaching costs ₹2,000-5,000 per session and needs calendar coordination. Unavailable at 11pm before a big meeting." },
+  { title: "Generic AI doesn't hold a persona", description: "ChatGPT and Claude are unconstrained - no character consistency, no behavioral feedback, no structured debrief." },
+  { title: "India context is absent", description: "Global tools like Yoodli are English-only and enterprise-gated. Indian workplace hierarchy dynamics go unaddressed." }
+]} />
+
+---
+
+## Research
+
+240 real situations were analyzed across Reddit India communities, dev.to, and public forums to understand not just what people struggle with, but how they behave before, during, and after high-stakes interpersonal moments.
+
+<CalloutBox type="problem" title="The core gap">
+81 of 240 posts (33.8%) showed avoidant or reactive behavior in the moment. Only 6 (2.5%) showed any active rehearsal or practice. A 5.5:1 ratio of passive consumption to actual practice.
+</CalloutBox>
+
+<StatGrid items={[
+  { value: "240", label: "Real situations analyzed" },
+  { value: "5.5:1", label: <>Passive consumption<br />to practice ratio</> },
+  { value: "33.8%", label: "Avoidant or reactive in-moment" },
+  { value: "2.5%", label: "Showed active rehearsal" }
+]} />
+
+The same behavioral gap - freeze, comply, or explode - appeared across every domain tested: romantic conflict, social isolation, family pressure, mental health disclosure, and workplace conflict. This wasn't a workplace-specific problem. It was a practice infrastructure problem, universal across contexts.
+
+### Six Recurring Patterns
+
+Across all 240 posts and every domain, six behavioral patterns surfaced consistently.
+
+<ComparisonTable
+  headers={["Pattern", "What it looks like"]}
+  rows={[
+    { label: "The Freeze", a: "Nervous system overload - heart races, words vanish. The single most common in-moment behavior." },
+    { label: "Conditioned Compliance", a: "Fear of hierarchy produces silent agreement even when pushback is warranted." },
+    { label: "Digital-Physical Glitch", a: "Years of async text erode fluency in live, unedited conversation." },
+    { label: "Logic-Stonewalling", a: "Emotions treated as bugs to fix, not feelings to be shared." },
+    { label: "Reactive Combustion", a: "Suppressed needs accumulate until they explode disproportionately." },
+    { label: "Participation Apprehension", a: "Has the right answer, stays silent - fears the disruption of speaking up." }
+  ]}
+/>
+
+### What Existing Solutions Miss
+
+<ComparisonTable
+  headers={["Solution type", "What it delivers", "The gap"]}
+  rows={[
+    { label: "Mental health apps (Wysa, iCALL)", a: "CBT exercises, mood check-ins, venting", b: "Treats anxiety after distress. No rehearsal of the actual conversation." },
+    { label: "Counselling apps (YourDOST, Amaha)", a: "Human sessions, emotional processing", b: "Backward-looking. Helps you understand feelings, not practice the moment." },
+    { label: "B2B enterprise tools (Yoodli, Mursion)", a: "Live speech feedback, simulations", b: "Enterprise-gated, English-only, globally designed - zero India context." },
+    { label: "Content (LinkedIn Learning, books)", a: "Frameworks, vocabulary, inspiration", b: "Passive. No practice loop. No feedback. No reps." }
+  ]}
+/>
+
+<CalloutBox type="note">
+The simulated conversation practice space does not exist in India for B2C, outside of B2B sales-focused tools.
+</CalloutBox>
+
+---
+
+## Domain Selection
+
+Five trigger domains emerged from the research. Each was scored across three axes - frequency, commercial viability, and product feasibility - to decide where to build.
+
+<QuadrantGrid items={[
+  { title: "Romantic Conflict", content: "Eliminated - irregular trigger, AI roleplay raises ethical complexity, B2B path closed entirely." },
+  { title: "Social Isolation", content: "Eliminated - episodic pain, no calculable ROI, Day-30 retention ~4% without a forcing function." },
+  { title: "Family Pressure", content: "Eliminated - highest emotional charge but lifetime-rare trigger, safety design needs clinical depth beyond MVP." },
+  { title: "Workplace & Career", content: "Selected - daily trigger frequency, measurable financial stakes, AI uniquely solves the core problem." }
+]} />
+
+<CalloutBox type="insight" title="Why Workplace won">
+75% of employers cite interpersonal communication as a critical gap (Deloitte 2025). Annual reviews, promotions, and PIPs create external, visible, time-bound forcing functions that don't exist in social or romantic domains. A 15-20% salary delta from negotiation makes ROI directly calculable - the product's value can be measured in rupees, not sentiment.
+</CalloutBox>
+
+Market sizing confirmed the white space: TAM ₹12,500-15,000 Cr, SAM B2B ₹4,500-6,200 Cr, SAM B2C ₹1,800-2,400 Cr (Ken Research 2024 / Redseer 2024). No direct competitor exists in India for B2C workplace conversation practice.
+
+### Top Workplace Pain Points
+
+<ComparisonTable
+  headers={["Pain point", "Scale"]}
+  rows={[
+    { label: "Negotiation paralysis", a: "Only 30-35% negotiate beyond first offer - a 15-20% lifetime earnings gap" },
+    { label: "Managerial friction → attrition", a: "34% cite interpersonal culture as primary exit reason; 17.7% national attrition rate" },
+    { label: "Fresher socialization gap", a: "45.19% of Indian graduates rated unemployable on workplace readiness" },
+    { label: "Feedback freeze", a: "85% don't disclose mental health issues to managers; sharpest manager-engagement drop globally is in India" },
+    { label: "Soft-skill framework absence", a: "50% of firms lack a structured framework to assess interpersonal skills" }
+  ]}
+/>
+
+---
+
+## Target User
+
+Four ICPs were mapped across trigger frequency, pain intensity, willingness to pay, and build feasibility. The Compliant Competent won on a combination none of the other three matched: daily trigger frequency and high willingness to pay.
+
+<QuoteCard
+  quote="Does the work. Watches someone else get the credit. Never quite believes it's their place to speak up."
+  author="The Compliant Competent"
+  role="Selected ICP"
+/>
+
+<ComparisonTable
+  headers={["Attribute", "Detail"]}
+  rows={[
+    { label: "Age", a: "24-35" },
+    { label: "Role", a: "Individual contributor, 2-7 years experience" },
+    { label: "Sector", a: "IT / BFSI / GCC - English-first workplaces" },
+    { label: "Location", a: "Tier 1 cities - Bangalore, Mumbai, NCR, Hyderabad" },
+    { label: "Daily context", a: "Slack messages drafted and deleted. Meetings where they had the answer but didn't speak." },
+    { label: "Motivation", a: "Salary, recognition, not being overlooked, career progression" },
+    { label: "Current workaround", a: "YouTube reels, Reddit r/IndiaCareerAdvice, trial-by-fire in real meetings" }
+  ]}
+/>
+
+<InsightCards items={[
+  { title: "Daily trigger, not seasonal", description: "Unlike the Overthinking Settler, who engages 3-5 times a year, the Compliant Competent's pain shows up daily - in standups, Slack, and 1:1s." },
+  { title: "Highest pain-to-WTP ratio", description: "Salary delta is felt and calculable. A 10% raise conversation justifies a subscription many times over." },
+  { title: "Flywheel potential", description: "A single resolved conversation creates word-of-mouth inside the same team, opening a path to B2B expansion." }
+]} />
+
+---
+
+## The Solution
+
+YOURTURN's core loop: voice-first AI roleplay against a fully contextualized persona, followed by structured behavioral feedback, one pre-written line the user can take into the real conversation, and longitudinal memory that sharpens coaching over future sessions.
+
+<ComparisonTable
+  headers={["Competitor", "What they do", "YOURTURN difference"]}
+  rows={[
+    { label: "LinkedIn Learning", a: "Static video, no feedback", b: "Practice loop, not content consumption" },
+    { label: "Traditional L&D", a: "One-off workshops", b: "Maintenance loop, daily trigger" },
+    { label: "BetterUp", a: "Executive coaching, $250M ARR pricing", b: "Accessible price point, India context" },
+    { label: "Yoodli / Peopling", a: "English-only, global design", b: "India-specific scenarios, Hinglish-aware" },
+    { label: "Real coaches", a: "₹2,000-5,000/session, calendar coordination", b: "On-demand, available at 11pm before a big meeting" },
+    { label: "ChatGPT / Claude", a: "Unconstrained, no behavioral feedback", b: "Persona-locked, structured debrief, repeatable reps" }
+  ]}
+/>
+
+### Scenario Library
+
+<InsightCards items={[
+  { title: "Power & Money", description: "Salary negotiation, pushing back on a manager's decision, asking for a raise or promotion" },
+  { title: "Exits & Transitions", description: "Resigning without burning bridges, negotiating a counteroffer, dealing with a PIP" },
+  { title: "Visibility & Self-Advocacy", description: "Disagreeing in a group meeting, presenting an unpopular idea, owning a mistake"},
+  { title: "Conflict & Boundaries", description: "Colleague taking credit for your work, dismissive senior, saying no to an unreasonable ask" }
+]} />
+
+---
+
+## Product Design
+
+Every onboarding answer simultaneously feeds two internal layers the user never sees: the Scenario Card Generator, which populates what they see during setup, and the System Prompt Assembler, which constructs the AI persona underneath.
+
+### Onboarding - 3 Questions
+
+<ComparisonTable
+  headers={["Question", "Feeds", "Why it matters"]}
+  rows={[
+    { label: "Job function/field", a: "Scenario cards + AI persona first draft", b: "Sets professional world, vocabulary, stakes" },
+    { label: "Industry", a: "Card jargon + persona archetype", b: "Makes scenarios feel accurate, not generic" },
+    { label: "Seniority level", a: "Persona power dynamic", b: "Tells the AI how much to defer, push back, or dominate" }
+    ]}
+/>
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Yourturn/Onboarding.jpg", alt: "Onboarding question 1 screen" }
+]} />
+
+### Scenario Setup - 4 Steps
+
+Every page arrives pre-populated from the AI's running draft. The user never sees a blank screen. Each page offers 2-3 high-confidence AI suggestions, 1-2 softer options, and a "build your own" card always last.
+
+<ComparisonTable
+  headers={["Question", "Effect"]}
+  rows={[
+    { label: "Type of Conversation", a: "Sets scene and tension; narrows persona draft" },
+    { label: "Counter Persona", a: "Locks persona: role, seniority, archetype, tone" },
+    { label: "Situation, Desired Outcome & Stakes", a: "Tells the AI what friction to create, when to concede" },
+    { label: "Session Duration & Difficulty", a: "Paces escalation and resolution timing" }
+  ]}
+/>
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Yourturn/Session Context 1.jpg", alt: "Onboarding question 1 screen" }
+]} />
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Yourturn/Session Context 2.jpg", alt: "Onboarding question 1 screen" }
+]} />
+
+
+### Practice Session & Debrief
+
+The AI plays the other person in character using the fully assembled system prompt, escalating or conceding based on how the user navigates. Sessions under 90 seconds are flagged as too short and not deducted from the user's limit.
+
+Post-session, the debrief breaks into five sections: behavioral patterns observed, strengths, responses under pressure, focus areas for improvement, and a next-session recommendation - plus one pre-written line the user can take directly into the real conversation.
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Yourturn/Live Session.jpg", alt: "Live voice session with waveform and transcript", caption: "Live session - voice waveform, persona name, timer" }
+]} />
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Yourturn/Analysis.jpg", alt: "Report Analysis", caption: "Debrief - Written & Visual analysis screen" }
+]} />
+
+<CalloutBox type="insight" title="Paywall placement">
+The paywall appears only after the user has fully built their scenario and tapped "Start session" on the preview screen - never earlier. This is the moment of maximum intent: the user has already invested 3-5 minutes constructing the scenario and is about to experience the value.
+</CalloutBox>
+
+---
+
+## AI Architecture
+
+Two n8n workflows orchestrate the AI layer around the live voice session - one before, one after.
+
+
+<ImageGallery images={[
+  { src: "/images/assets/work/Yourturn/n8n Workflow.jpg", alt: "n8n Workflow", caption: "Pre session & Post session n8n Workflow | Credit: Ankit Jain" }
+]} />
+
+<ComparisonTable
+  headers={["Component", "Choice", "Rationale"]}
+  rows={[
+    { label: "Voice (STT + LLM + TTS)", a: "Vapi + Deepgram + Gemini 2.0 Flash (BYOK) + Vapi native TTS", b: "All-in voice orchestration; BYOK removes LLM markup" },
+    { label: "Workflow automation", a: "n8n self-hosted on Railway", b: "Unlimited executions, ~$5/mo, full control" },
+    { label: "Vector database", a: "Supabase (pgvector)", b: "Free tier covers MVP scale, zero per-query cost" },
+    { label: "Embeddings", a: "Gemini embedding-001", b: "Top MTEB multilingual leaderboard, $0.15/1M tokens" },
+    { label: "LLM for debrief", a: "Gemini 2.5 Flash-Lite", b: "Cheaper than Groq; sufficient for post-session analysis" },
+    { label: "Re-ranking + chunking", a: "Pure JavaScript in n8n", b: "Zero cost; deterministic on ~10-minute transcripts" }
+  ]}
+/>
+
+### RAG Design
+
+Each session transcript splits into 4 chunks - 3 conversation chunks plus 1 feedback summary - embedded at ~400 tokens average and stored with session metadata. Retrieval uses cosine similarity, re-ranked in JavaScript before injection into the system prompt.
+
+<StatGrid items={[
+  { value: "4", label: "Chunks per session transcript" },
+  { value: "~2,500", label: "System prompt token budget" },
+  { value: "~25MB", label: "Vector storage at 2,000 sessions/mo" },
+  { value: "35%", label: "Returning sessions triggering WF1" }
+]} />
+
+---
+
+## Business Model & Unit Economics
+
+<CalloutBox type="problem" title="The cost correction that changed everything">
+The original cost model used $0.018/min as all-in voice cost - Gemini Live's audio rate, not applicable to the Vapi stack actually used. The corrected all-in Vapi cost is $0.073/min across four separate billing components, putting real cost at ₹78 per session, not ₹15.
+</CalloutBox>
+
+<ComparisonTable
+  headers={["Component", "Cost/session"]}
+  rows={[
+    { label: "Vapi hosting", a: "$0.50" },
+    { label: "Deepgram STT", a: "$0.10" },
+    { label: "Vapi native TTS (Sagar/Naina)", a: "$0.216" },
+    { label: "Gemini LLM (BYOK)", a: "~$0.001" },
+    { label: "Total voice + RAG", a: "~$0.82 (~₹81)" }
+  ]}
+/>
+
+### Pricing Structure
+
+<ComparisonTable
+  headers={["Tier", "Price", "Session limit"]}
+  rows={[
+    { label: "Free", a: "₹0", b: "3 sessions - trust and product experience" },
+    { label: "Starter Pack", a: "₹599-799 one-time", b: "5 sessions - episodic, one upcoming conversation" },
+    { label: "Subscription", a: "₹999/month", b: "8 sessions (hard cap)" },
+    { label: "Subscription Pro", a: "₹1,499/month", b: "12 sessions (hard cap) - for high-frequency ICPs" }
+  ]}
+/>
+
+Session caps exist because voice inference is the dominant cost driver. Without hard caps, a power user on 10-12 sessions/month would nearly wipe out subscription revenue at ₹999.
+
+### Unit Economics (1,000 User Cohort)
+
+<StatGrid items={[
+  { value: "~₹150", label: "Blended CAC per user" },
+  { value: "₹3.86L", label: "Total upfront cost (acquisition + free-tier)" },
+  { value: "8%", label: "Paid conversion rate" },
+  { value: "29%", label: "Gross contribution margin" }
+]} />
+
+<CalloutBox type="note" title="Breakeven reality">
+At corrected costs, full breakeven lands around month 23, not the original 3-month estimate. Two levers close most of the gap: converting Starter Pack one-time buyers into subscribers, and a Deepgram Aura-1 TTS swap that saves ₹15/session and pulls breakeven to month 16.
+</CalloutBox>
+
+<CalloutBox type="insight" title="Value asymmetry is the real unlock">
+₹81 in infrastructure cost per session against ₹50,000-₹3,00,000 in potential salary or promotion impact from one successful negotiation. Career ROI framing makes ₹999/month feel small against the upside.
+</CalloutBox>
+
+---
+
+## Goals & Success Metrics
+
+<ComparisonTable
+  headers={["Metric", "Target", "Timeframe"]}
+  rows={[
+    { label: "Session completion rate (>7 min)", a: "≥65%", b: "Month 1" },
+    { label: "Debrief satisfaction (≥4/5)", a: "≥70%", b: "Month 1" },
+    { label: "3-session free tier completion", a: "≥50%", b: "Month 2" },
+    { label: "D7 retention", a: "≥25%", b: "Month 2" },
+    { label: "Paid conversion rate", a: "≥8%", b: "Month 3" },
+    { label: "User-reported real-world impact", a: "≥60%", b: "Month 4" },
+    { label: "CAC payback period", a: "≤3 months", b: "Month 6" }
+  ]}
+/>
+
+<CalloutBox type="note">
+The CAC payback target of ≤3 months is an aspirational benchmark set in the PRD. At corrected voice costs and an 8% conversion base case, the model projects ~17 months. The gap is tracked, not papered over - and three concrete levers (TTS swap, reduced free sessions, Starter-to-subscription conversion) are modeled against it.
+</CalloutBox>
+
+---
+
+## Risks & Trade-offs
+
+<ComparisonTable
+  headers={["Risk", "Mitigation"]}
+  rows={[
+    { label: "Voice quality degrades for non-RP English accents", a: "Test with 20+ users across accents pre-launch; tune ASR; add text fallback" },
+    { label: "AI persona breaks character mid-session", a: "System prompt stress-testing across all 10 persona types before launch" },
+    { label: "Debrief feels generic, not personalized", a: "Include verbatim transcript moments in debrief prompt; test 50 sessions pre-launch" },
+    { label: "Voice runtime cost spike from power users", a: "Hard session caps enforced at checkout; monitor weekly" },
+    { label: "Low paid conversion (<4%)", a: "A/B test paywall copy; consider lower-friction Starter Pack entry" },
+    { label: "DPDP Act - voice data storage", a: "Legal review pre-launch; transcripts encrypted; retention policy defined" }
+  ]}
+/>
+ 
+## Contributors & Mentor
+ 
+### Contributors
+ 
+<LinksSection links={[
+  { href: "https://www.linkedin.com/in/ankit-jain95", label: "Ankit Jain" },
+  { href: "https://www.linkedin.com/in/khushi-kanade-6047351b4/", label: "Khushi Kanade" },
+  { href: "https://www.linkedin.com/in/srinidhisrinivasan", label: "Srinidhi Srinivasan" },
+  { href: "https://www.linkedin.com/in/sharyanshjain/", label: "Sharyansh Jain" },
+  { href: "https://www.linkedin.com/in/raviwray/", label: "Ravi Wray" },
+  { href: "https://www.linkedin.com/in/pooja-singh-20953610a/", label: "Pooja Singh" }
+]} />
+
+### Mentor / Guide
+
+<LinksSection links={[
+  { href: "https://www.linkedin.com/in/sakshi-poddar-8b3548173/", label: "Sakshi Podar" }
+]} />

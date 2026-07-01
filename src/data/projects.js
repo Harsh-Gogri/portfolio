@@ -14,6 +14,13 @@ export const projects = [
     image: "/images/assets/work/Card Sense/CardSense.jpg",
   },
   {
+    id: "your-turn",
+    title: "Your Turn",
+    company: "Your Turn",
+    tags: ["Product"],
+    image: "/images/assets/work/Yourturn/Live Session.jpg",
+  },
+  {
     id: "upi-shield",
     title: "UPI Shield",
     company: "UPI",

@@ -1,0 +1,40 @@
+.toggle {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 500;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  /* Uses the same surface + border tokens as NavButton in ReviewsSection */
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.toggle:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-bg-secondary);
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  pointer-events: none;
+}

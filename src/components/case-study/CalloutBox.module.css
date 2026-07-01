@@ -17,21 +17,33 @@
 }
 
 .insight::before {
-  background-color: #468432;
+  background-color: var(--color-success);
 }
 
 .problem::before {
-  background-color: #D25353;
+  background-color: var(--color-error);
 }
 
 .note::before {
-  background-color: #41444B;
+  background-color: var(--color-icon);
 }
 
 .icon {
   width: 20px;
   height: 20px;
   margin-top: 2px;
+}
+
+.insight .icon {
+  color: var(--color-success);
+}
+
+.problem .icon {
+  color: var(--color-error);
+}
+
+.note .icon {
+  color: var(--color-icon);
 }
 
 .body {
