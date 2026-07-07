@@ -21,6 +21,17 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "typescript": "latest"
-  }
+    "typescript": "latest",
+    "critters": "^0.0.23"
+  },
+  "browserslist": [
+    ">0.3%",
+    "not dead",
+    "not op_mini all",
+    "not safari < 15",
+    "not ios_saf < 15",
+    "not chrome < 92",
+    "not firefox < 90",
+    "not edge < 92"
+  ]
 }

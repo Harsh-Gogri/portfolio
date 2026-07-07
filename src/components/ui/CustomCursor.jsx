@@ -183,7 +183,7 @@ export default function CustomCursor() {
         style={{ opacity: activeImage ? 1 : 0 }}
       >
         <img
-          src={activeImage || "/images/assets/work/UPI Shield/upi-shield.jpeg"}
+          src={activeImage || "/images/assets/work/UPI Shield/upi-shield.avif"}
           alt=""
           className={styles.image}
         />
