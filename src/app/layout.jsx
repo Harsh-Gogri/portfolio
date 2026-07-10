@@ -5,7 +5,7 @@ import { bricolageGrotesque, geist, inter } from "@/lib/fonts";
 import "@/styles/globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://harshgogri.com"),
+  metadataBase: new URL("https://www.harshgogri.com"),
   title: "Harsh Gogri | Product Manager",
   description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
   openGraph: {
