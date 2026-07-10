@@ -6,27 +6,40 @@ import "@/styles/globals.css";
 
 export const metadata = {
   metadataBase: new URL("https://www.harshgogri.com"),
+
   title: "Harsh Gogri | Product Manager",
-  description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+  description:
+    "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+
+  alternates: {
+    canonical: "https://www.harshgogri.com",
+  },
+
   openGraph: {
     title: "Harsh Gogri | Product Manager",
-    description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+    description:
+      "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+    url: "https://www.harshgogri.com",
+    siteName: "Harsh Gogri",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/images/assets/og/og-image.jpg",
+        url: "/images/assets/og/og-image.png",
         width: 1200,
         height: 630,
         alt: "Harsh Gogri | Product Manager",
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Harsh Gogri | Product Manager",
-    description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
-    images: ["/images/assets/og/og-image.jpg"],
+    description:
+      "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+    images: ["/images/assets/og/og-image.png"],
+    creator: "@HarshGogri02",
   },
 };
 
