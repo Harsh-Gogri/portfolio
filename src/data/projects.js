@@ -5,6 +5,7 @@ export const projects = [
     company: "Smallcase",
     tags: ["Product"],
     image: "/images/assets/work/Smallcase - Guided Entry System/smallcase-guided-entry-system.avif",
+    description: "A product case study on smallcase featuring a UX teardown, user segmentation, and a wireframed solution to simplify the equity investing experience for users.",
   },
   {
     id: "card-sense",
@@ -12,6 +13,7 @@ export const projects = [
     company: "Credit Cards",
     tags: ["Product"],
     image: "/images/assets/work/Card Sense/CardSense.jpg",
+    description: "A chat-based RAG-powered credit card intelligence assistant designed to help Indian users navigate complex reward structures and maximize card benefits.",
   },
   {
     id: "your-turn",
@@ -19,6 +21,7 @@ export const projects = [
     company: "Your Turn",
     tags: ["Product"],
     image: "/images/assets/work/Yourturn/Live Session.jpg",
+    description: "A mobile-first AI app helping Indian working professionals practice and rehearse high-stakes workplace conversations with a realistic AI persona.",
   },
   {
     id: "upi-shield",
@@ -26,6 +29,7 @@ export const projects = [
     company: "UPI",
     tags: ["Product"],
     image: "/images/assets/work/UPI Shield/upi-shield.avif",
+    description: "UPI Shield is a concept feature that introduces a real-time risk awareness layer within the payment flow, enabling users to make safer decisions.",
   },
   {
     id: "collaboration-groups",
@@ -33,6 +37,7 @@ export const projects = [
     company: "Mitt Arv",
     tags: ["Design"],
     image: "/images/assets/work/Mitt Arv - Collaboration/collaboration groups.avif",
+    description: "A desktop redesign for Mitt Arv's Collaboration Groups, focusing on simplifying the complex permission system and improving sharing of digital assets.",
   },
   {
     id: "emotional-will",
@@ -40,6 +45,7 @@ export const projects = [
     company: "Mitt Arv",
     tags: ["Design"],
     image: "/images/assets/work/Mitt Arv - Emotional Will/emotional will.avif",
+    description: "A desktop redesign for Mitt Arv's Emotional Will, focusing on improving usability, accessibility, and visual hierarchy for sharing meaningful messages.",
   },
   {
     id: "payments-censored",
@@ -47,5 +53,6 @@ export const projects = [
     company: "Travel & Payments",
     tags: ["Design"],
     image: "/images/assets/work/T&P - Payments Censored/payments censored.avif",
+    description: "A sleek, payment-themed party game designed to entertain industry professionals, featuring a flexible, cobranded product design for corporate partnerships.",
   }
 ];
