@@ -5,8 +5,29 @@ import { bricolageGrotesque, geist, inter } from "@/lib/fonts";
 import "@/styles/globals.css";
 
 export const metadata = {
-  title: "Harsh Gogri - Product Manager",
-  description: "Early-career Product Manager with a CS degree and 1.5 years leading product-design at a B2C startup. Experienced in roadmap prioritization, cross-functional collaboration, and shipping scalable features within Agile sprints. Strongest at discovery, PRD authoring, and bridging design and engineering backed by a design systems background and hands-on technical skills in APIs and front-end development."
+  metadataBase: new URL("https://harshgogri.com"),
+  title: "Harsh Gogri | Product Manager",
+  description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+  openGraph: {
+    title: "Harsh Gogri | Product Manager",
+    description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/images/assets/og/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Harsh Gogri | Product Manager",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Harsh Gogri | Product Manager",
+    description: "Portfolio featuring product case studies, UX design, product strategy, and end-to-end product thinking.",
+    images: ["/images/assets/og/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({ children }) {
