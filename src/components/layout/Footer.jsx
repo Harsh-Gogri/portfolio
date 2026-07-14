@@ -68,7 +68,7 @@ export default function Footer() {
 
       {/* Watermark bottom bar */}
       <div className={styles.watermarkBar} aria-hidden="true">
-        <span className={styles.watermarkText}>Harsh Gogri</span>
+        <span className={styles.watermarkText}>Harsh</span>
       </div>
     </footer>
   );
