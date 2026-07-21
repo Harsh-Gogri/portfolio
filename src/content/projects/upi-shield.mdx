@@ -8,25 +8,19 @@ UPI Shield is a concept feature that introduces a real-time risk awareness layer
 
 ## Research & Problem Framing
 
-<StatGrid items={[
-  { value: "13.42L", label: "UPI fraud incidents worth ₹1,087 crore reported in FY24" },
-  { value: "12.64L", label: "UPI fraud incidents worth ₹981 crore recorded in FY25" },
-  { value: "10.64L", label: "UPI fraud incidents worth ₹805 crore in H1 FY26 (Apr–Nov 2025)" }
-]} />
-
-<CalloutBox type="note">
-  Source: Ministry of Finance, Parliament data
-</CalloutBox>
-
-<CalloutBox type="insight">
-  Most fraud does not occur due to system vulnerabilities, but because users are not equipped with the right signals at the moment of decision-making. Today, users are expected to trust unfamiliar QR codes or UPI IDs without any contextual verification.
-</CalloutBox>
-
-<QuoteCard
-  quote="UPI fraud is a decision-stage problem, not a technology failure."
-  author="Key Insight"
-  role="UPI Shield Research"
+<StatGrid
+  items={[
+    { value: "13.42L", label: "UPI fraud incidents worth ₹1,087 crore reported in FY24" },
+    { value: "12.64L", label: "UPI fraud incidents worth ₹981 crore recorded in FY25" },
+    { value: "10.64L", label: "UPI fraud incidents worth ₹805 crore in H1 FY26 (Apr–Nov 2025)" },
+  ]}
 />
+
+<CalloutBox type="note">Source: Ministry of Finance, Parliament data</CalloutBox>
+
+<CalloutBox type="insight">Most fraud does not occur due to system vulnerabilities, but because users are not equipped with the right signals at the moment of decision-making. Today, users are expected to trust unfamiliar QR codes or UPI IDs without any contextual verification.</CalloutBox>
+
+<QuoteCard quote="UPI fraud is a decision-stage problem, not a technology failure." author="Key Insight" role="UPI Shield Research" />
 
 ---
 
@@ -37,7 +31,7 @@ UPI Shield is a concept feature that introduces a real-time risk awareness layer
   rows={[
     { label: "Behavior", a: "Makes multiple small-value transactions daily — friends, deliveries, marketplace sellers.", b: "Makes infrequent payments, often high-value or to unfamiliar accounts." },
     { label: "Attitude to Risk", a: "Often sends money to new or unfamiliar UPI IDs. Prioritizes speed over verification.", b: "Lacks confidence in identifying fraud. More likely to rely on instructions from others." },
-    { label: "Core Need", a: "Safety checks without compromising speed.", b: "A quick, reliable way to verify credibility before paying." }
+    { label: "Core Need", a: "Safety checks without compromising speed.", b: "A quick, reliable way to verify credibility before paying." },
   ]}
 />
 
@@ -45,9 +39,7 @@ UPI Shield is a concept feature that introduces a real-time risk awareness layer
 
 ## Core Problems
 
-<CalloutBox type="problem">
-  Users cannot evaluate QR codes or UPI IDs before paying. There is no quick credibility check for unfamiliar recipients, the payment flow prioritizes speed over safety signals, and fraud exploits decision gaps — not technical vulnerabilities.
-</CalloutBox>
+<CalloutBox type="problem">Users cannot evaluate QR codes or UPI IDs before paying. There is no quick credibility check for unfamiliar recipients, the payment flow prioritizes speed over safety signals, and fraud exploits decision gaps — not technical vulnerabilities.</CalloutBox>
 
 **User Stories**
 
@@ -69,7 +61,7 @@ The opportunity lies in embedding lightweight risk awareness directly within the
     { label: "Risk Visibility", a: "No signals before payment confirmation.", b: "Real-time risk indicators surfaced during the flow." },
     { label: "User Control", a: "Users proceed with no option to verify.", b: "Optional deeper analysis before committing to a transfer." },
     { label: "Fraud Response", a: "Post-transaction detection and recovery.", b: "Pre-transaction decision support and fraud reporting." },
-    { label: "Payment Speed", a: "Fast but uninformed.", b: "Fast by default, with optional friction for risky transactions." }
+    { label: "Payment Speed", a: "Fast but uninformed.", b: "Fast by default, with optional friction for risky transactions." },
   ]}
 />
 
@@ -77,11 +69,13 @@ The opportunity lies in embedding lightweight risk awareness directly within the
 
 ## Goals & Metrics
 
-<StatGrid items={[
-  { value: "30%", label: "Target payment attempts with risk review within 4 months of launch" },
-  { value: "0", label: "Significant increase in payment completion time — guardrail" },
-  { value: "0%", label: "Drop in payment success rate — guardrail" }
-]} />
+<StatGrid
+  items={[
+    { value: "30%", label: "Target payment attempts with risk review within 4 months of launch" },
+    { value: "0", label: "Significant increase in payment completion time — guardrail" },
+    { value: "0%", label: "Drop in payment success rate — guardrail" },
+  ]}
+/>
 
 <ComparisonTable
   headers={["Type", "Metric", "Why It Matters"]}
@@ -89,7 +83,7 @@ The opportunity lies in embedding lightweight risk awareness directly within the
     { label: "Primary", a: "Risk Analysis Engagement Rate", b: "% of payment attempts where users open or view risk analysis before completing a transaction." },
     { label: "Supporting", a: "Risk Check Interaction Rate", b: "Measures feature discoverability within the payment flow." },
     { label: "Supporting", a: "Payment Cancellation Rate Post Risk Alert", b: "Indicates whether fraud warnings are driving meaningful user action." },
-    { label: "Supporting", a: "Report Suspicious QR", b: "Validates whether users are taking action on suspicious QR/VPA." }
+    { label: "Supporting", a: "Report Suspicious QR", b: "Validates whether users are taking action on suspicious QR/VPA." },
   ]}
 />
 
@@ -99,43 +93,31 @@ The opportunity lies in embedding lightweight risk awareness directly within the
 
 UPI Shield introduces a lightweight, optional security layer integrated directly into the payment flow.
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/upi-shield.avif", alt: "4 Key Features of UPI Shield", caption: "The four core components of UPI Shield." }
-]} />
+<ImageGallery images={[{ src: "/images/assets/work/UPI Shield/upi-shield.avif", alt: "4 Key Features of UPI Shield", caption: "The four core components of UPI Shield." }]} />
 
 **1. Scan QR with Risk Awareness**
 
 Scan QR → System detects UPI ID → User enters amount → Open risk analysis panel (optional) → View risk signals → Proceed or Cancel.
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/Scan QR.jpeg", alt: "Scan QR Flow", caption: "QR scan flow with risk awareness integrated at the confirmation step." }
-]} />
+<ImageGallery images={[{ src: "/images/assets/work/UPI Shield/Scan QR.jpeg", alt: "Scan QR Flow", caption: "QR scan flow with risk awareness integrated at the confirmation step." }]} />
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/Risk Analysis.jpeg", alt: "Risk Analysis Panel", caption: "Optional risk analysis panel surfaced before payment confirmation." }
-]} />
+<ImageGallery images={[{ src: "/images/assets/work/UPI Shield/Risk Analysis.jpeg", alt: "Risk Analysis Panel", caption: "Optional risk analysis panel surfaced before payment confirmation." }]} />
 
 **2. UPI ID Analyzer**
 
 Enter UPI ID → System analyzes ID structure and signals → Risk analysis generated → User reviews credibility signals.
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/Scam Radar.jpeg", alt: "UPI ID Analyzer — Scam Radar", caption: "Scam Radar enabling users to check a UPI ID before initiating a payment." }
-]} />
+<ImageGallery images={[{ src: "/images/assets/work/UPI Shield/Scam Radar.jpeg", alt: "UPI ID Analyzer — Scam Radar", caption: "Scam Radar enabling users to check a UPI ID before initiating a payment." }]} />
 
 **3. Fraud Reporting**
 
 Select Report Fraud → Choose report type (UPI ID or QR Code) → Submit ID or upload QR image → Describe suspicious activity → Submit report.
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/Report Fraud.jpeg", alt: "Fraud Reporting", caption: "Fraud reporting flow accessible directly within the payment experience." }
-]} />
+<ImageGallery images={[{ src: "/images/assets/work/UPI Shield/Report Fraud.jpeg", alt: "Fraud Reporting", caption: "Fraud reporting flow accessible directly within the payment experience." }]} />
 
 **4. AI Knowledge Hub**
 
-<ImageGallery images={[
-  { src: "/images/assets/work/UPI Shield/Knowledge Hub.jpeg", alt: "AI Knowledge Hub", caption: "AI-powered knowledge hub helping users identify and avoid common scam patterns." }
-]} />
+<ImageGallery images={[{ src: "/images/assets/work/UPI Shield/Knowledge Hub.jpeg", alt: "AI Knowledge Hub", caption: "AI-powered knowledge hub helping users identify and avoid common scam patterns." }]} />
 
 ---
 
@@ -154,7 +136,7 @@ The risk scoring system is conceptualized as a multi-signal evaluation engine. I
     { label: "VPA Check Started", a: "User opens UPI ID Analyzer", b: "User enters a UPI ID for analysis." },
     { label: "Risk Analysis Viewed", a: "User opens risk panel", b: "User opens fraud risk insights during payment." },
     { label: "Fraud Report Started", a: "User selects Report Fraud", b: "User opens the fraud report flow." },
-    { label: "Fraud Report Submitted", a: "User submits report", b: "User successfully submits suspicious VPA or QR." }
+    { label: "Fraud Report Submitted", a: "User submits report", b: "User successfully submits suspicious VPA or QR." },
   ]}
 />
 
@@ -168,7 +150,7 @@ The risk scoring system is conceptualized as a multi-signal evaluation engine. I
     { label: "Speed vs Safety", a: "UPI's core value lies in instant transactions. Introducing friction risks drop-offs.", b: "Keep all risk interactions optional and non-blocking." },
     { label: "Trust in Risk Signals", a: "Overly aggressive warnings create alert fatigue; weak signals fail to prevent fraud.", b: "Prioritize explainability — show why something is risky instead of black-box scoring." },
     { label: "Lack of Primary Research", a: "Project relied entirely on secondary research without user interviews or usability validation.", b: "Ground decisions in industry data and known behavioral fraud patterns." },
-    { label: "Technical & Compliance Dependencies", a: "Requires QR parsing, camera integration, risk engine API, and financial warning compliance.", b: "Scoped as concept; dependencies flagged for implementation phase." }
+    { label: "Technical & Compliance Dependencies", a: "Requires QR parsing, camera integration, risk engine API, and financial warning compliance.", b: "Scoped as concept; dependencies flagged for implementation phase." },
   ]}
 />
 
@@ -176,9 +158,7 @@ The risk scoring system is conceptualized as a multi-signal evaluation engine. I
 
 ## Dependencies
 
-<CalloutBox type="note">
-  Implementation depends on: QR scanning and camera access integration, risk analysis logic for VPA/QR detection, backend or API support for fraud signal evaluation, analytics tracking implementation, and compliance review for fraud warning messaging.
-</CalloutBox>
+<CalloutBox type="note">Implementation depends on: QR scanning and camera access integration, risk analysis logic for VPA/QR detection, backend or API support for fraud signal evaluation, analytics tracking implementation, and compliance review for fraud warning messaging.</CalloutBox>
 
 ---
 
@@ -192,6 +172,10 @@ From a product perspective, this translates to lower fraud success rates and str
 
 ## Links
 
-<a href="https://drive.google.com/file/d/1Y8E4SfWviHn-U9mpxk9ByOAKnIvDSP20/view" target="_blank" rel="noopener noreferrer">Presentation</a> |
-<a href="https://drive.google.com/file/d/1YUgUQVIym5R-IHtyQ4Qfx_tyeUeXR3ZB/view" target="_blank" rel="noopener noreferrer">PRD</a> |
-<a href="https://harsh-gogri.github.io/UPI-shield/" target="_blank" rel="noopener noreferrer">Prototype</a>
+<LinksSection
+  links={[
+    { href: "https://tryupishield.vercel.app/", label: "Prototype" },
+    { href: "https://drive.google.com/file/d/1Y8E4SfWviHn-U9mpxk9ByOAKnIvDSP20/view", label: "Presentation" },
+    { href: "https://drive.google.com/file/d/1YUgUQVIym5R-IHtyQ4Qfx_tyeUeXR3ZB/view", label: "PRD" },
+  ]}
+/>
