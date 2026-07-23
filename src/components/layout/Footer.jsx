@@ -19,7 +19,7 @@ const ArrowUpRight = () => (
 );
 
 const links = [
-  { label: "Resume", href: "https://drive.google.com/file/d/14ebr_kMmzX6JKkYjU_qsFgegCBndgrbM/view" },
+  { label: "Resume", href: "https://drive.google.com/file/d/151mYprowwo-WjTFWVqhpJXRMcRI-2qYt/view" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/harshgogri02/" },
   { label: "Schedule a call", href: "https://cal.com/harshgogri/15min" },
 ];

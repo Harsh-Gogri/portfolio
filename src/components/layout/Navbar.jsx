@@ -12,8 +12,8 @@ const externalProps = (href) =>
   isExternal(href) ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
 const centerLinks = [
-  { label: "Works", href: "/work" },
-  { label: "Resume", href: "https://drive.google.com/file/d/14ebr_kMmzX6JKkYjU_qsFgegCBndgrbM/view" },
+  { label: "Work", href: "/work" },
+  { label: "Resume", href: "https://drive.google.com/file/d/151mYprowwo-WjTFWVqhpJXRMcRI-2qYt/view" },
 ];
 
 const rightLinks = [
