@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { bricolageGrotesque, geist, inter } from "@/lib/fonts";
+import { Analytics } from "@vercel/analytics/next";
 import "@/styles/globals.css";
 
 export const metadata = {
@@ -75,6 +76,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <ThemeToggle />
+        <Analytics />
       </body>
     </html>
   );
