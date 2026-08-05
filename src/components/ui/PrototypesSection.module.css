@@ -1,0 +1,184 @@
+.prototypesSection {
+  width: 100%;
+  padding: 120px 0;
+  background-color: var(--color-bg);
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.headerLeft {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.headerLine {
+  flex-grow: 1;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 0 16px;
+}
+
+.prototypeBlock {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 5fr 4fr;
+  grid-template-areas:
+    "image image title meta"
+    "link1 desc desc link2";
+  gap: 1px;
+  background-color: var(--color-border);
+  border: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.mirrored {
+  grid-template-areas:
+    "title meta image image"
+    "link1 desc desc link2";
+}
+
+/* Common Cell Styles */
+.cell {
+  background-color: var(--color-bg);
+  padding: var(--spacing-lg);
+  display: flex;
+  box-sizing: border-box;
+}
+
+/* Image Cell */
+.cellImage {
+  grid-area: image;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  min-height: 280px;
+  aspect-ratio: 1.8/1;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.cellImage:hover .image {
+  filter: grayscale(0.25);
+}
+
+/* Title Cell (Row 1 Col 2) - Text aligned to bottom */
+.cellTitle {
+  grid-area: title;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* Meta Cell (Row 1 Col 3 / Col 1 in mirrored) - justify-content: space-between */
+.cellMeta {
+  grid-area: meta;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.metaTop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.roleName,
+.roleLabel {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.smallText {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Link 1 Cell (Row 2 Col 1) */
+.cellLink1 {
+  grid-area: link1;
+  align-items: flex-end;
+}
+
+/* Description Cell (Row 2 Col 2) */
+.cellDesc {
+  grid-area: desc;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* Link 2 Cell (Row 2 Col 3) */
+.cellLink2 {
+  grid-area: link2;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Shared single-line text link styling */
+.textLink {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.textLink:hover {
+  color: var(--color-primary);
+}
+
+/* Mobile Breakpoint - section set to display: none */
+@media (max-width: 768px) {
+  .prototypesSection {
+    display: none;
+  }
+}
