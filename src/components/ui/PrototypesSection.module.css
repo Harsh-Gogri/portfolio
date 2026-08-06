@@ -55,7 +55,7 @@
 /* Common Cell Styles */
 .cell {
   background-color: var(--color-bg);
-  padding: var(--spacing-lg);
+  padding: 60px;
   display: flex;
   box-sizing: border-box;
 }
@@ -155,7 +155,6 @@
 .cellLink2 {
   grid-area: link2;
   align-items: flex-end;
-  justify-content: center;
 }
 
 /* Shared single-line text link styling */
