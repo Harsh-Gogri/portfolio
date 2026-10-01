@@ -10,24 +10,24 @@ const ArrowIcon = ({ className }) => (
 const ideas = [
   {
     id: "01",
-    title: "People's Museum",
-    description: "People's Museum is a digital museum for preserving meaningful personal objects and the stories behind them.",
-    url: "https://peoples-museum.figma.site/",
-    image: "/images/assets/prototypes/peoples_museum.png",
+    title: "Compliance Lens",
+    description: "Compliance tool designed to evaluate agent scripts against regulations",
+    url: "https://compliancelens.vercel.app/",
+    image: "/images/assets/prototypes/compliance_lens.jpeg",
   },
   {
     id: "02",
-    title: "Silence Chamber",
-    description: "You wake up in an invisible maze where the only way to see is to speak. Every word reveals the world ⚆_⚆ and your location.",
-    url: "https://silence-chamber.figma.site/",
-    image: "/images/assets/prototypes/silence_chamber.png",
+    title: "People's Museum",
+    description: "People's Museum is a digital museum for preserving meaningful personal objects and the stories behind them.",
+    url: "https://peoples-museum.figma.site/",
+    image: "/images/assets/prototypes/peoples_museum.jpeg",
   },
   {
     id: "03",
-    title: "Compliance Lens",
-    description: "Compliance auditing tool designed to evaluate lending agent scripts against RBI's regulatory frameworks",
-    url: "https://compliancelens.vercel.app/",
-    image: "/images/assets/prototypes/compliance_lens.jpeg",
+    title: "Silence Chamber",
+    description: "You wake up in an invisible maze where the only way to see is to speak.",
+    url: "https://silence-chamber.figma.site/",
+    image: "/images/assets/prototypes/silence_chamber.png",
   }
 ];
 

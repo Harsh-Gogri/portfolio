@@ -26,6 +26,8 @@
   --spacing-md: 32px;
   --spacing-lg: 64px;
   --spacing-xl: 120px;
+
+  --max-width-container: 1440px;
 }
 
 /* Dark Mode — same token names, alternate values.
