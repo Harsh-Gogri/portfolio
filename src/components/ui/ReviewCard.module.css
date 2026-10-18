@@ -1,119 +1,120 @@
-.card {
-  background: var(--color-bg-secondary);
-  aspect-ratio: 7/6;
-  height: 520px;
-  width: auto;
-  border-radius: 32px;
-  padding: 32px;
+.slide {
+  grid-area: slide;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
-  gap: 16px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  background: transparent;
+  outline: none;
+  cursor: default;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 450ms cubic-bezier(0.25, 1, 0.5, 1),
+    visibility 450ms cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity;
 }
 
-.avatar {
-  width: 48px;
-  height: 48px;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  object-fit: cover;
+.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-.avatarPlaceholder {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--color-border);
+.fadingOut {
+  opacity: 0;
+  visibility: visible;
+  pointer-events: none;
+  transition:
+    opacity 350ms cubic-bezier(0.25, 1, 0.5, 1),
+    visibility 350ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.sourcePill {
-  border: 1px solid var(--color-border);
-  border-radius: 100px;
-  padding: 8px 12px;
+.inactive {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.slide:focus-visible {
+  outline: 2px solid var(--color-text-muted);
+  outline-offset: 8px;
+  border-radius: 4px;
+}
+
+/* Quote */
+.quoteCol {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.quoteText {
   font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
-.quotation {
-  width: 24px;
-  height: auto;
-  color: var(--color-primary);
-  margin-top: 16px;
-}
-
-.content {
-  flex: 1;
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-  line-height: 1.7;
+  font-size: clamp(1.75rem, 2.2vw + 0.6rem, 2.5rem);
+  line-height: 1.45;
+  font-weight: 200;
   color: var(--color-text);
-  margin-top: 8px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: auto;
-  -webkit-box-orient: vertical;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-align: center;
 }
 
-.reviewerInfo {
-  border-left: 2px solid var(--color-border);
-  padding: 8px 0px 8px 20px;
-  margin-top: 16px;
+.quoteText em {
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.015em;
+}
+
+
+/* Attribution: Plain text only, centered */
+.attribution {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
+  margin-top: 32px;
+  text-align: center;
 }
 
 .reviewerName {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  font-style: normal;
   color: var(--color-text);
-  font-weight: 600;
+  line-height: 1.3;
 }
 
 .company {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 400;
   color: var(--color-text-muted);
+  line-height: 1.35;
 }
 
-@media (max-width: 440px) {
-  .card {
-    width: 85vw;
-    height: auto;
-    aspect-ratio: 8/11;
-    padding: 24px;
-    flex-shrink: 0;
-    gap: 12px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .quoteText {
+    font-size: clamp(1.35rem, 4.5vw, 1.65rem);
+    line-height: 1.5;
   }
 
-  .avatar {
-    width: 40px;
-    height: 40px;
+  .attribution {
+    margin-top: 24px;
   }
+}
 
-  .avatarPlaceholder {
-    width: 40px;
-    height: 40px;
-  }
+@media (prefers-reduced-motion: reduce) {
 
-  .quotation {
-    width: 20px;
-    font-size: 1rem;
-  }
-
-  .content {
-    font-size: 1rem;
-  }
-
-  .reviewerInfo {
-    margin-top: 4px;
-    gap: 4px;
+  .slide,
+  .active,
+  .fadingOut,
+  .inactive {
+    transition: none !important;
   }
 }
