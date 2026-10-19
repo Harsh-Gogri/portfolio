@@ -1,3 +1,4 @@
+/* ── Desktop ────────────────────────────────────────────────────────────── */
 .reviewsSection {
   width: 100%;
 }
@@ -16,7 +17,7 @@
 .stage {
   display: grid;
   grid-template-areas: "slide";
-  max-width: 840px;
+  max-width: 960px;
   width: 100%;
   margin: 0 auto;
   position: relative;
@@ -28,8 +29,42 @@
   }
 }
 
+/* ── Mobile scroll-driven ───────────────────────────────────────────────── */
+
+/*
+ * The wrapper is tall: 4 × 100dvh
+ *   – 1 dvh: the initial pin (before any transition)
+ *   – 1 dvh per review × 3 reviews
+ * This gives the scroll engine room to cycle through all three reviews
+ * before the pin releases and the page scrolls on.
+ */
 @media (max-width: 768px) {
-  .container {
-    padding: 80px 20px;
+  .mobileScrollSection {
+    /* height = 1 initial pin + 1 per review (reviews.length = 3) */
+    height: calc(4 * 100dvh);
+    position: relative;
+  }
+
+  .mobileSticky {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  /* Stage reuses the same grid-overlap trick as desktop */
+  .stage {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileSticky {
+    /* No overrides needed; ReviewCard handles its own transition suppression */
   }
 }

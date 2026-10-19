@@ -54,7 +54,7 @@
 
 .quoteText {
   font-family: var(--font-body);
-  font-size: clamp(1.75rem, 2.2vw + 0.6rem, 2.5rem);
+  font-size: clamp(1.2rem, 2.7vw + .6rem, 3rem);
   line-height: 1.45;
   font-weight: 200;
   color: var(--color-text);
@@ -76,7 +76,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-top: 32px;
+  margin-top: 52px;
   text-align: center;
 }
 
