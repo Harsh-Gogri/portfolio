@@ -100,12 +100,12 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .quoteText {
-    font-size: clamp(1.35rem, 4.5vw, 1.65rem);
+    font-size: clamp(1.5rem, 4.5vw, 1.65rem);
     line-height: 1.5;
   }
 
   .attribution {
-    margin-top: 24px;
+    margin-top: 40px;
   }
 }
 
