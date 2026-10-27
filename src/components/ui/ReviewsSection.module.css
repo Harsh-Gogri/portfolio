@@ -1,6 +1,8 @@
 /* ── Desktop ────────────────────────────────────────────────────────────── */
 .reviewsSection {
   width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
@@ -8,19 +10,104 @@
   margin: 0 auto;
   padding: 140px 24px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 /* CSS Grid single-cell overlap: locks container height to the tallest review */
 .stage {
   display: grid;
   grid-template-areas: "slide";
-  max-width: 840px;
+  max-width: 760px;
   width: 100%;
   margin: 0 auto;
   position: relative;
+  z-index: 1;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-text-subtle);
+  opacity: 0.35;
+  transition:
+    opacity 350ms cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 350ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 350ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.dotActive {
+  background-color: var(--color-text);
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* ── Background Canvas ──────────────────────────────────────────────────── */
+.bgCanvasWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 650ms cubic-bezier(0.25, 1, 0.5, 1);
+  /* Top & bottom dissolve into neighbor sections; subtle side vignette */
+  mask-image: radial-gradient(
+      ellipse 90% 85% at 50% 50%,
+      black 55%,
+      rgba(0, 0, 0, 0.4) 80%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 16%,
+      black 84%,
+      transparent 100%
+    );
+  -webkit-mask-image: radial-gradient(
+      ellipse 90% 85% at 50% 50%,
+      black 55%,
+      rgba(0, 0, 0, 0.4) 80%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 16%,
+      black 84%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+.bgCanvasWrapperLoaded {
+  opacity: 1;
+}
+
+.bgCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
 @media (max-width: 1024px) {
@@ -53,15 +140,21 @@
     top: 0;
     height: 100dvh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 20px;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* Stage reuses the same grid-overlap trick as desktop */
   .stage {
     max-width: 100%;
     width: 100%;
+  }
+
+  .dots {
+    margin-top: 36px;
   }
 }

@@ -172,7 +172,6 @@
   .ideaCard:nth-child(3) {
     width: 100%;
     height: 320px;
-    border-radius: 28px;
   }
 
   .cardImage {

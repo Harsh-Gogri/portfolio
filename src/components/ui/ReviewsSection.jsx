@@ -1,40 +1,41 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import styles from "./ReviewsSection.module.css";
 import ReviewCard from "./ReviewCard";
 import { reviews } from "@/data/reviews";
 
+// Lazy-load the animated canvas background only when section is near viewport
+const ReviewsBackground = dynamic(() => import("./ReviewsBackground"), {
+  ssr: false,
+});
+
 const EXCERPTS = {
   "1": (
     <>
-      What sets Harsh apart is his <b>reliability</b> and <b>professionalism</b> - he always shows up on time, and requires minimal guidance.
+      What sets Harsh apart is his <em>reliability</em> and <em>professionalism</em> - he always shows up on time, and requires minimal guidance.
     </>
   ),
   "2": (
     <>
-      Clear in communication, <b>thoughtful</b> in approach, and always brings a clean, <b>functional</b> design sense to the table.
+      Clear in communication, <em>thoughtful</em> in approach, and always brings a clean, <em>functional</em> design sense to the table.
     </>
   ),
   "3": (
     <>
-      His <b>creativity</b>, commitment to continuous improvement and ability to <b>adapt</b> to changing requirements sets him apart
+      His <em>creativity</em>, commitment to continuous improvement and ability to <em>adapt</em> to changing requirements sets him apart
     </>
   )
 };
 
-const INTERVAL_MS = 7000;
-const FADE_OUT_DURATION_MS = 350;
+const INTERVAL_MS   = 7000;
+const CROSSFADE_MS  = 500; // both slides fade simultaneously on this duration
 
-// Each review occupies SEGMENT_MULTIPLIER × windowH of scroll distance.
-// FADE_FRACTION of that is fade-in, FADE_FRACTION is fade-out, the rest is hold.
+// Mobile scroll-progress constants (must match CSS 5.5 × 100dvh wrapper height)
 const SEGMENT_MULTIPLIER = 1.5;
-const FADE_FRACTION = 0.2;
+const FADE_FRACTION      = 0.2;
 
-/**
- * Compute the opacity [0,1] of review i given how far (px) the user has
- * scrolled into the pinned section (scrolledIn) and the current window height.
- */
 function computeOpacity(scrolledIn, windowH, i) {
   const segmentH  = windowH * SEGMENT_MULTIPLIER;
   const fadeZone  = segmentH * FADE_FRACTION;
@@ -44,9 +45,7 @@ function computeOpacity(scrolledIn, windowH, i) {
   const holdEnd   = segEnd   - fadeZone;
   const isLast    = i === reviews.length - 1;
 
-  // First review is fully visible from the moment the section pins.
   if (i === 0 && scrolledIn <= fadeInEnd) return 1;
-
   if (scrolledIn <= segStart)  return 0;
   if (scrolledIn <= fadeInEnd) return (scrolledIn - segStart) / fadeZone;
   if (scrolledIn <= holdEnd)   return 1;
@@ -54,28 +53,61 @@ function computeOpacity(scrolledIn, windowH, i) {
   return isLast ? 1 : 0;
 }
 
+// Three position dots — rendered in both desktop and mobile branches.
+// aria-hidden: the dots are a purely visual indicator; screen readers
+// already get position context from the aria-label on each slide.
+function Dots({ total, activeIndex }) {
+  return (
+    <div className={styles.dots} aria-hidden="true">
+      {Array.from({ length: total }).map((_, i) => (
+        <span
+          key={i}
+          className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ""}`}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function ReviewsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isFadingOut, setIsFadingOut] = useState(false);
-  const [isMobile, setIsMobile]       = useState(false);
+  const [activeIndex,      setActiveIndex]      = useState(0);
+  const [fadingOutIndex,   setFadingOutIndex]   = useState(null); // desktop simultaneous crossfade
+  const [isMobile,         setIsMobile]         = useState(false);
+  const [mobileActiveDot,  setMobileActiveDot]  = useState(0); // tracks dominant slide for mobile dots
+  const [shouldLoadBg,     setShouldLoadBg]     = useState(false); // lazy load background near viewport
 
-  const timerRef       = useRef(null);
-  const fadeTimeoutRef = useRef(null);
-  const scrollWrapperRef = useRef(null);
-  const slideRefs      = useRef(reviews.map(() => null)); // DOM refs for mobile slides
-  const rafRef         = useRef(null);
-  const wrapperTopRef  = useRef(null); // cached absolute position, invalidated on resize
+  const timerRef           = useRef(null);
+  const crossfadeRef       = useRef(null);
+  const activeIndexRef     = useRef(0); // ref copy avoids stale closure in advanceReview
+  const scrollWrapperRef   = useRef(null);
+  const desktopSectionRef  = useRef(null);
+  const mobileStickyRef     = useRef(null);
+  const slideRefs          = useRef(reviews.map(() => null));
+  const rafRef             = useRef(null);
+  const wrapperTopRef      = useRef(null); // cached absolute position; invalidated on resize
+  const mobileActiveDotRef = useRef(0); // ref copy to avoid setState on unchanged value
 
-  // ── Desktop auto-advance ────────────────────────────────────────────────
+  // ── Desktop simultaneous crossfade ──────────────────────────────────────
+  // Both the outgoing slide (fadingOutIndex) and incoming slide (activeIndex)
+  // transition simultaneously: one fades to 0, the other fades from 0 to 1.
+  // There is no blank frame between them.
   const advanceReview = useCallback(() => {
-    setIsFadingOut(true);
-    fadeTimeoutRef.current = setTimeout(() => {
-      setActiveIndex((prev) => (prev + 1) % reviews.length);
-      setIsFadingOut(false);
-    }, FADE_OUT_DURATION_MS);
+    const current = activeIndexRef.current;
+    const next    = (current + 1) % reviews.length;
+
+    if (crossfadeRef.current) clearTimeout(crossfadeRef.current);
+
+    setFadingOutIndex(current);
+    setActiveIndex(next);
+    activeIndexRef.current = next;
+
+    crossfadeRef.current = setTimeout(() => {
+      setFadingOutIndex(null);
+      crossfadeRef.current = null;
+    }, CROSSFADE_MS);
   }, []);
 
-  // Detect mobile breakpoint (mirrors the CSS breakpoint).
+  // Detect mobile breakpoint.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(max-width: 768px)");
@@ -85,7 +117,28 @@ export default function ReviewsSection() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // Desktop timer (skip on mobile).
+  // Lazy-load the background only when the reviews section is near the viewport
+  useEffect(() => {
+    if (typeof window === "undefined" || shouldLoadBg) return;
+
+    const target = isMobile ? scrollWrapperRef.current : desktopSectionRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadBg(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isMobile, shouldLoadBg]);
+
+  // Desktop auto-advance timer (skipped on mobile).
   useEffect(() => {
     if (isMobile) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -97,23 +150,15 @@ export default function ReviewsSection() {
       if (!e.matches) timerRef.current = setInterval(advanceReview, INTERVAL_MS);
     };
     mq.addEventListener("change", onMotionChange);
+
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
+      if (timerRef.current)    clearInterval(timerRef.current);
+      if (crossfadeRef.current) clearTimeout(crossfadeRef.current);
       mq.removeEventListener("change", onMotionChange);
     };
   }, [advanceReview, isMobile]);
 
-  // ── Mobile scroll-progress animation ──────────────────────────────────────
-  //
-  // Opacity for each slide is a pure function of scroll position, evaluated
-  // every animation frame. There are no timeouts, no discrete state jumps,
-  // and no way for the animation to fall out of sync with the scroll position.
-  //
-  // Fast flick: the browser fires a scroll event, we schedule a rAF, the rAF
-  // reads the current (already-settled) scrollY and writes the exact correct
-  // opacity. The hold zone (60% of each review's scroll distance) guarantees
-  // every review reaches opacity 1 even if the user never pauses.
+  // ── Mobile scroll-progress animation ────────────────────────────────────
   useEffect(() => {
     if (!isMobile) return;
     if (typeof window === "undefined") return;
@@ -123,14 +168,12 @@ export default function ReviewsSection() {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Remove CSS transitions from all slides — we own opacity from here on.
+    // Disable CSS transitions — we drive opacity entirely via inline styles.
     slideRefs.current.forEach((el) => {
       if (el) el.style.transition = "none";
     });
 
     if (reducedMotion) {
-      // No animation: show all reviews simultaneously so screen reader users
-      // and users who prefer reduced motion get uninterrupted access.
       slideRefs.current.forEach((el) => {
         if (!el) return;
         el.style.opacity    = "1";
@@ -141,16 +184,11 @@ export default function ReviewsSection() {
 
     const update = () => {
       rafRef.current = null;
-      const scrollY  = window.scrollY;
       const windowH  = window.innerHeight;
+      const scrolledIn = Math.max(0, -wrapper.getBoundingClientRect().top);
 
-      // Recompute wrapper position lazily; invalidated by onResize below.
-      if (wrapperTopRef.current === null) {
-        wrapperTopRef.current =
-          wrapper.getBoundingClientRect().top + scrollY;
-      }
-
-      const scrolledIn = Math.max(0, scrollY - wrapperTopRef.current);
+      let dominantIndex = 0;
+      let maxOpacity    = -1;
 
       slideRefs.current.forEach((el, i) => {
         if (!el) return;
@@ -160,7 +198,20 @@ export default function ReviewsSection() {
         );
         el.style.opacity    = String(opacity);
         el.style.visibility = opacity > 0.005 ? "visible" : "hidden";
+
+        // Track which slide is most visible so the dot can follow.
+        if (opacity > maxOpacity) {
+          maxOpacity    = opacity;
+          dominantIndex = i;
+        }
       });
+
+      // Only trigger a React state update when the dominant slide changes
+      // (avoids re-renders on every scroll frame).
+      if (dominantIndex !== mobileActiveDotRef.current) {
+        mobileActiveDotRef.current = dominantIndex;
+        setMobileActiveDot(dominantIndex);
+      }
     };
 
     const onScroll = () => {
@@ -169,17 +220,13 @@ export default function ReviewsSection() {
       }
     };
 
-    // Toolbar show/hide on mobile fires resize; invalidate cached position.
     const onResize = () => {
-      wrapperTopRef.current = null;
       onScroll();
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
-
-    // Sync immediately so the first frame is correct.
-    update();
+    update(); // sync immediately on mount
 
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -188,7 +235,7 @@ export default function ReviewsSection() {
     };
   }, [isMobile]);
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  // ── Render: mobile ───────────────────────────────────────────────────────
   if (isMobile) {
     return (
       <section
@@ -198,13 +245,8 @@ export default function ReviewsSection() {
         className={styles.mobileScrollSection}
         ref={scrollWrapperRef}
       >
-        {/* Sticky viewport — holds one review at a time visually */}
-        <div className={styles.mobileSticky}>
-          {/*
-            aria-live="off": we don't want screen readers interrupted by
-            the visual scroll animation. All 3 slides are always in the DOM
-            with aria-hidden=false so screen reader users can read them all.
-          */}
+        <div className={styles.mobileSticky} ref={mobileStickyRef}>
+          {shouldLoadBg && <ReviewsBackground containerRef={mobileStickyRef} />}
           <div className={styles.stage} aria-live="off">
             {reviews.map((review, index) => (
               <ReviewCard
@@ -212,46 +254,47 @@ export default function ReviewsSection() {
                 quote={EXCERPTS[review.id] || review.quote}
                 reviewerName={review.reviewerName}
                 company={review.company}
-                isActive={index === 0}   // initial CSS state; JS takes over immediately
+                isActive={index === 0}
                 isFadingOut={false}
                 index={index}
                 total={reviews.length}
                 slideRef={(el) => { slideRefs.current[index] = el; }}
-                alwaysVisible             // never set aria-hidden on mobile
+                alwaysVisible
               />
             ))}
           </div>
+          <Dots total={reviews.length} activeIndex={mobileActiveDot} />
         </div>
       </section>
     );
   }
 
-  // ── Desktop ───────────────────────────────────────────────────────────────
+  // ── Render: desktop ──────────────────────────────────────────────────────
   return (
     <section
       id="reviews"
       className={styles.reviewsSection}
       aria-label="Endorsements"
       aria-roledescription="carousel"
+      ref={desktopSectionRef}
     >
+      {shouldLoadBg && <ReviewsBackground containerRef={desktopSectionRef} />}
       <div className={styles.container}>
         <div className={styles.stage} aria-live="polite" aria-atomic="true">
-          {reviews.map((review, index) => {
-            const isActive = index === activeIndex;
-            return (
-              <ReviewCard
-                key={review.id}
-                quote={EXCERPTS[review.id] || review.quote}
-                reviewerName={review.reviewerName}
-                company={review.company}
-                isActive={isActive}
-                isFadingOut={isActive && isFadingOut}
-                index={index}
-                total={reviews.length}
-              />
-            );
-          })}
+          {reviews.map((review, index) => (
+            <ReviewCard
+              key={review.id}
+              quote={EXCERPTS[review.id] || review.quote}
+              reviewerName={review.reviewerName}
+              company={review.company}
+              isActive={index === activeIndex}
+              isFadingOut={index === fadingOutIndex}
+              index={index}
+              total={reviews.length}
+            />
+          ))}
         </div>
+        <Dots total={reviews.length} activeIndex={activeIndex} />
       </div>
     </section>
   );
