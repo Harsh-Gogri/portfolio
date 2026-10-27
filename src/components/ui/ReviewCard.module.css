@@ -59,7 +59,7 @@
   font-size: clamp(1.4rem, 3.2vw + 0.3rem, 3.2rem);
   line-height: 1.42;
   font-weight: 200;
-  color: var(--color-text);
+  color: var(--color-text-muted);
   letter-spacing: -0.025em;
   margin: 0;
   text-align: center;
@@ -68,8 +68,9 @@
 .quoteText em,
 .quoteText strong,
 .quoteText b {
-  font-weight: 600;
-  font-style: italic;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  /* font-style: italic; */
   color: var(--color-text);
   letter-spacing: -0.015em;
 }
@@ -115,6 +116,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .slide,
   .active,
   .fadingOut,

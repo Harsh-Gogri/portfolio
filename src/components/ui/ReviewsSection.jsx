@@ -14,42 +14,42 @@ const ReviewsBackground = dynamic(() => import("./ReviewsBackground"), {
 const EXCERPTS = {
   "1": (
     <>
-      What sets Harsh apart is his <em>reliability</em> and <em>professionalism</em> - he always shows up on time, and requires minimal guidance.
+      What sets Harsh apart is his <b>reliability</b> and <b>professionalism</b> - he always shows up on time, and requires minimal guidance.
     </>
   ),
   "2": (
     <>
-      Clear in communication, <em>thoughtful</em> in approach, and always brings a clean, <em>functional</em> design sense to the table.
+      Clear in communication, <b>thoughtful</b> in approach, and always brings a clean, <b>functional</b> design sense to the table.
     </>
   ),
   "3": (
     <>
-      His <em>creativity</em>, commitment to continuous improvement and ability to <em>adapt</em> to changing requirements sets him apart
+      His <b>creativity</b>, commitment to continuous improvement and ability to <b>adapt</b> to changing requirements sets him apart
     </>
   )
 };
 
-const INTERVAL_MS   = 7000;
-const CROSSFADE_MS  = 500; // both slides fade simultaneously on this duration
+const INTERVAL_MS = 7000;
+const CROSSFADE_MS = 500; // both slides fade simultaneously on this duration
 
 // Mobile scroll-progress constants (must match CSS 5.5 × 100dvh wrapper height)
 const SEGMENT_MULTIPLIER = 1.5;
-const FADE_FRACTION      = 0.2;
+const FADE_FRACTION = 0.2;
 
 function computeOpacity(scrolledIn, windowH, i) {
-  const segmentH  = windowH * SEGMENT_MULTIPLIER;
-  const fadeZone  = segmentH * FADE_FRACTION;
-  const segStart  = i * segmentH;
-  const segEnd    = (i + 1) * segmentH;
+  const segmentH = windowH * SEGMENT_MULTIPLIER;
+  const fadeZone = segmentH * FADE_FRACTION;
+  const segStart = i * segmentH;
+  const segEnd = (i + 1) * segmentH;
   const fadeInEnd = segStart + fadeZone;
-  const holdEnd   = segEnd   - fadeZone;
-  const isLast    = i === reviews.length - 1;
+  const holdEnd = segEnd - fadeZone;
+  const isLast = i === reviews.length - 1;
 
   if (i === 0 && scrolledIn <= fadeInEnd) return 1;
-  if (scrolledIn <= segStart)  return 0;
+  if (scrolledIn <= segStart) return 0;
   if (scrolledIn <= fadeInEnd) return (scrolledIn - segStart) / fadeZone;
-  if (scrolledIn <= holdEnd)   return 1;
-  if (scrolledIn <= segEnd)    return isLast ? 1 : 1 - (scrolledIn - holdEnd) / fadeZone;
+  if (scrolledIn <= holdEnd) return 1;
+  if (scrolledIn <= segEnd) return isLast ? 1 : 1 - (scrolledIn - holdEnd) / fadeZone;
   return isLast ? 1 : 0;
 }
 
@@ -70,22 +70,23 @@ function Dots({ total, activeIndex }) {
 }
 
 export default function ReviewsSection() {
-  const [activeIndex,      setActiveIndex]      = useState(0);
-  const [fadingOutIndex,   setFadingOutIndex]   = useState(null); // desktop simultaneous crossfade
-  const [isMobile,         setIsMobile]         = useState(false);
-  const [mobileActiveDot,  setMobileActiveDot]  = useState(0); // tracks dominant slide for mobile dots
-  const [shouldLoadBg,     setShouldLoadBg]     = useState(false); // lazy load background near viewport
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [fadingOutIndex, setFadingOutIndex] = useState(null); // desktop simultaneous crossfade
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileActiveDot, setMobileActiveDot] = useState(0); // tracks dominant slide for mobile dots
+  const [shouldLoadBg, setShouldLoadBg] = useState(false); // lazy load background near viewport
 
-  const timerRef           = useRef(null);
-  const crossfadeRef       = useRef(null);
-  const activeIndexRef     = useRef(0); // ref copy avoids stale closure in advanceReview
-  const scrollWrapperRef   = useRef(null);
-  const desktopSectionRef  = useRef(null);
-  const mobileStickyRef     = useRef(null);
-  const slideRefs          = useRef(reviews.map(() => null));
-  const rafRef             = useRef(null);
-  const wrapperTopRef      = useRef(null); // cached absolute position; invalidated on resize
+  const timerRef = useRef(null);
+  const crossfadeRef = useRef(null);
+  const activeIndexRef = useRef(0); // ref copy avoids stale closure in advanceReview
+  const scrollWrapperRef = useRef(null);
+  const desktopSectionRef = useRef(null);
+  const mobileStickyRef = useRef(null);
+  const slideRefs = useRef(reviews.map(() => null));
+  const rafRef = useRef(null);
+  const wrapperTopRef = useRef(null); // cached absolute position; invalidated on resize
   const mobileActiveDotRef = useRef(0); // ref copy to avoid setState on unchanged value
+  const scrollProgressRef = useRef(0); // tracks normalized mobile scroll progress (0 to 1)
 
   // ── Desktop simultaneous crossfade ──────────────────────────────────────
   // Both the outgoing slide (fadingOutIndex) and incoming slide (activeIndex)
@@ -93,7 +94,7 @@ export default function ReviewsSection() {
   // There is no blank frame between them.
   const advanceReview = useCallback(() => {
     const current = activeIndexRef.current;
-    const next    = (current + 1) % reviews.length;
+    const next = (current + 1) % reviews.length;
 
     if (crossfadeRef.current) clearTimeout(crossfadeRef.current);
 
@@ -152,7 +153,7 @@ export default function ReviewsSection() {
     mq.addEventListener("change", onMotionChange);
 
     return () => {
-      if (timerRef.current)    clearInterval(timerRef.current);
+      if (timerRef.current) clearInterval(timerRef.current);
       if (crossfadeRef.current) clearTimeout(crossfadeRef.current);
       mq.removeEventListener("change", onMotionChange);
     };
@@ -176,7 +177,7 @@ export default function ReviewsSection() {
     if (reducedMotion) {
       slideRefs.current.forEach((el) => {
         if (!el) return;
-        el.style.opacity    = "1";
+        el.style.opacity = "1";
         el.style.visibility = "visible";
       });
       return;
@@ -184,11 +185,16 @@ export default function ReviewsSection() {
 
     const update = () => {
       rafRef.current = null;
-      const windowH  = window.innerHeight;
+      const windowH = window.innerHeight;
       const scrolledIn = Math.max(0, -wrapper.getBoundingClientRect().top);
 
+      // Track normalized mobile scroll progress (0 when 1st review arrives, 1 when 3rd review exits)
+      const totalScroll = reviews.length * SEGMENT_MULTIPLIER * windowH;
+      const progress = totalScroll > 0 ? Math.max(0, Math.min(1, scrolledIn / totalScroll)) : 0;
+      scrollProgressRef.current = progress;
+
       let dominantIndex = 0;
-      let maxOpacity    = -1;
+      let maxOpacity = -1;
 
       slideRefs.current.forEach((el, i) => {
         if (!el) return;
@@ -196,12 +202,12 @@ export default function ReviewsSection() {
           0,
           Math.min(1, computeOpacity(scrolledIn, windowH, i))
         );
-        el.style.opacity    = String(opacity);
+        el.style.opacity = String(opacity);
         el.style.visibility = opacity > 0.005 ? "visible" : "hidden";
 
         // Track which slide is most visible so the dot can follow.
         if (opacity > maxOpacity) {
-          maxOpacity    = opacity;
+          maxOpacity = opacity;
           dominantIndex = i;
         }
       });
@@ -246,7 +252,13 @@ export default function ReviewsSection() {
         ref={scrollWrapperRef}
       >
         <div className={styles.mobileSticky} ref={mobileStickyRef}>
-          {shouldLoadBg && <ReviewsBackground containerRef={mobileStickyRef} />}
+          {shouldLoadBg && (
+            <ReviewsBackground
+              containerRef={mobileStickyRef}
+              scrollProgressRef={scrollProgressRef}
+              isMobile={true}
+            />
+          )}
           <div className={styles.stage} aria-live="off">
             {reviews.map((review, index) => (
               <ReviewCard
@@ -278,7 +290,12 @@ export default function ReviewsSection() {
       aria-roledescription="carousel"
       ref={desktopSectionRef}
     >
-      {shouldLoadBg && <ReviewsBackground containerRef={desktopSectionRef} />}
+      {shouldLoadBg && (
+        <ReviewsBackground
+          containerRef={desktopSectionRef}
+          isMobile={false}
+        />
+      )}
       <div className={styles.container}>
         <div className={styles.stage} aria-live="polite" aria-atomic="true">
           {reviews.map((review, index) => (

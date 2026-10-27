@@ -36,7 +36,11 @@ export const CONFIG = {
   BREATHE_SPEED: 0.0011,       // Speed of organic contour wave / pulse
 };
 
-export default function ReviewsBackground({ containerRef }) {
+export default function ReviewsBackground({
+  containerRef,
+  scrollProgressRef,
+  isMobile: isMobileProp,
+}) {
   const canvasRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -90,7 +94,7 @@ export default function ReviewsBackground({ containerRef }) {
     let startTime = performance.now();
 
     const initGrid = (w, h) => {
-      isMobile = w <= 768;
+      isMobile = isMobileProp !== undefined ? isMobileProp : (w <= 768);
       const spacing = isMobile
         ? CONFIG.GRID_SPACING_MOBILE
         : CONFIG.GRID_SPACING_DESKTOP;
@@ -125,8 +129,18 @@ export default function ReviewsBackground({ containerRef }) {
       }
 
       if (ringPos.x === 0 && ringPos.y === 0) {
-        ringPos = { x: w * 0.5, y: h * 0.5 };
-        targetPos = { x: w * 0.5, y: h * 0.5 };
+        const initialProgress =
+          isMobile && scrollProgressRef ? Math.max(0, Math.min(1, scrollProgressRef.current ?? 0)) : 0;
+        const initialY =
+          isMobile && scrollProgressRef
+            ? h * (0.88 - initialProgress * 0.86)
+            : h * 0.5;
+        const initialX =
+          isMobile && scrollProgressRef
+            ? w * 0.5 + Math.sin(initialProgress * Math.PI * 2) * (w * 0.14)
+            : w * 0.5;
+        ringPos = { x: initialX, y: initialY };
+        targetPos = { x: initialX, y: initialY };
       }
     };
 
@@ -140,7 +154,7 @@ export default function ReviewsBackground({ containerRef }) {
 
       if (newWidth <= 0 || newHeight <= 0) return;
 
-      isMobile = newWidth <= 768;
+      isMobile = isMobileProp !== undefined ? isMobileProp : (newWidth <= 768);
       // Cap DPR to 1.5 on desktop and 1.0 on mobile to protect fill-rate
       dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.5);
 
@@ -161,7 +175,7 @@ export default function ReviewsBackground({ containerRef }) {
     const parent = containerRef?.current || canvas.parentElement;
 
     const onPointerMove = (e) => {
-      if (e.pointerType === "touch") return; // Touch devices wander autonomously
+      if (isMobile || e.pointerType === "touch") return; // Touch/mobile strictly scroll-driven
       if (!parent) return;
 
       const rect = parent.getBoundingClientRect();
@@ -176,7 +190,7 @@ export default function ReviewsBackground({ containerRef }) {
     };
 
     const onPointerEnter = (e) => {
-      if (e.pointerType === "touch") return;
+      if (isMobile || e.pointerType === "touch") return;
       hasCursor = true;
       onPointerMove(e);
     };
@@ -233,9 +247,20 @@ export default function ReviewsBackground({ containerRef }) {
       const g = Math.round(currentRgb.g);
       const b = Math.round(currentRgb.b);
 
-      // Autonomous wander when no active cursor
-      if (!hasCursor) {
-        // Smooth figure-8 / Lissajous path that gently tours the margins
+      // Target ring position:
+      if (isMobile && scrollProgressRef) {
+        // Mobile scroll-specific positioning:
+        // - While 1st review is in view (progress 0): ring is at bottom (0.88 * height)
+        // - As user scrolls, it continuously ascends up the viewport
+        // - Traces a subtle S-curve centered around width * 0.5 without random wandering
+        // - While 3rd review leaves viewport (progress 1): ring is at top (0.02 * height) about to leave
+        const progress = Math.max(0, Math.min(1, scrollProgressRef.current ?? 0));
+        targetPos.x =
+          width * 0.5 + Math.sin(progress * Math.PI * 2) * (width * 0.14);
+        targetPos.y =
+          height * (0.88 - progress * 0.86);
+      } else if (!hasCursor) {
+        // Desktop autonomous wander when no active cursor
         targetPos.x =
           width * 0.5 +
           Math.sin(wanderTime * 1.1) * (width * 0.32) +
@@ -245,9 +270,10 @@ export default function ReviewsBackground({ containerRef }) {
           Math.sin(wanderTime * 0.85 + 1.2) * (height * 0.28);
       }
 
-      // Smooth damped follow (no jumps on handover)
-      ringPos.x += (targetPos.x - ringPos.x) * CONFIG.CURSOR_LERP_FACTOR;
-      ringPos.y += (targetPos.y - ringPos.y) * CONFIG.CURSOR_LERP_FACTOR;
+      // Smooth damped follow (0.12 factor on mobile for responsive thumb scroll feel)
+      const lerpFactor = isMobile ? 0.12 : CONFIG.CURSOR_LERP_FACTOR;
+      ringPos.x += (targetPos.x - ringPos.x) * lerpFactor;
+      ringPos.y += (targetPos.y - ringPos.y) * lerpFactor;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
@@ -419,7 +445,7 @@ export default function ReviewsBackground({ containerRef }) {
         resizeObserver.unobserve(observerTarget);
       }
     };
-  }, [containerRef]);
+  }, [containerRef, scrollProgressRef, isMobileProp]);
 
   return (
     <div
